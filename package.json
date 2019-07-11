@@ -29,6 +29,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "https://axboard.com",
   "devDependencies": {
     "@babel/runtime": "^7.5.4",
     "gh-pages": "^2.0.1"
