@@ -4,29 +4,24 @@ import "./App.css";
 import AxiomAPI from "axiom-api";
 
 function App() {
-  let axiom = new AxiomAPI({ verbose: true });
+  let axiom = new AxiomAPI({ network: "local", verbose: true });
   let node = axiom.createNode();
 
   return (
     <div className="App">
-      <Scanner node={node} />
+      <Chat node={node} />
     </div>
   );
 }
 
-function Scanner({ node }) {
-  let [lines, setLines] = useState(["scanning the network..."]);
-
+function Chat({ node }) {
   setTimeout(() => {
-    setLines([node.statusLine()].concat(lines));
-  }, 2000);
+    // XXX do stuff here
+  }, 1000);
 
   return (
     <div>
-      <h1>P2P Network Scanner</h1>
-      {lines.map((line, index) => (
-        <p key={index}>{line}</p>
-      ))}
+      <h1>P2P Chat</h1>
     </div>
   );
 }
