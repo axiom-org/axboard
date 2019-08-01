@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 
 import AxiomAPI from "axiom-api";
@@ -14,16 +14,37 @@ function App() {
   );
 }
 
-function Chat({ node }) {
-  setTimeout(() => {
-    // XXX do stuff here
-  }, 1000);
+class Chat extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div>
-      <h1>P2P Chat</h1>
-    </div>
-  );
+    let { node } = props;
+    this.state = {
+      clicks: 0
+    };
+
+    node.subscribe("clicks", (sender, data) => {
+      console.log(sender, data);
+    });
+    node.publish("clicks", "hello");
+  }
+
+  handleClick() {
+    this.setState({ clicks: this.state.clicks + 1 });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>P2P Click Counting</h1>
+        <p>
+          The count is {this.state.clicks}{" "}
+          {this.state.clicks === 1 ? "click" : "clicks"}.
+        </p>
+        <button onClick={() => this.handleClick()}>Click me</button>
+      </div>
+    );
+  }
 }
 
 export default App;
