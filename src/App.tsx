@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import "./App.css";
 
-import AxiomAPI from "axiom-api";
+import React, { useState } from "react";
+import AxiomAPI, { Channel, Database, KeyPair, SignedMessage } from "axiom-api";
 
 export default function App() {
   let axiom = new AxiomAPI({ network: "alpha", verbose: true });
@@ -12,20 +12,41 @@ export default function App() {
 
   return (
     <div className="App">
-      <PostList postdb={postdb} commentdb={commentdb} />
+      <PostList postdb={postdb} commentdb={commentdb} channel={channel} />
     </div>
   );
 }
 
-class PostList extends React.Component {
-  constructor(props) {
+class PostList extends React.Component<
+  {
+    postdb: Database;
+    commentdb: Database;
+    channel: Channel;
+  },
+  {
+    posts: { [key: string]: SignedMessage };
+    comments: { [parent: string]: { [key: string]: SignedMessage } };
+    keyPair?: KeyPair;
+  }
+> {
+  postdb: Database;
+  commentdb: Database;
+  channel: Channel;
+
+  constructor(props: {
+    postdb: Database;
+    commentdb: Database;
+    channel: Channel;
+  }) {
     super(props);
 
     this.postdb = props.postdb;
     this.commentdb = props.commentdb;
+    this.channel = props.channel;
     this.state = {
       posts: {},
-      comments: {}
+      comments: {},
+      keyPair: undefined
     };
 
     setInterval(() => {
@@ -33,7 +54,7 @@ class PostList extends React.Component {
       this.commentdb.load();
     }, 1000);
 
-    this.postdb.onMessage(sm => {
+    this.postdb.onMessage((sm: SignedMessage) => {
       if (sm.message.type === "Delete") {
         return;
       }
@@ -43,7 +64,7 @@ class PostList extends React.Component {
       this.setState({ posts: newPosts });
     });
 
-    this.commentdb.onMessage(sm => {
+    this.commentdb.onMessage((sm: SignedMessage) => {
       if (sm.message.type === "Delete") {
         return;
       }
@@ -57,7 +78,7 @@ class PostList extends React.Component {
     });
   }
 
-  sortedPosts() {
+  sortedPosts(): SignedMessage[] {
     let posts = [];
     for (let key in this.state.posts) {
       posts.push(this.state.posts[key]);
@@ -68,7 +89,7 @@ class PostList extends React.Component {
     return posts;
   }
 
-  sortedComments(parent) {
+  sortedComments(parent: string): SignedMessage[] {
     let comments = [];
     for (let key in this.state.comments[parent]) {
       comments.push(this.state.comments[parent][key]);
@@ -79,23 +100,43 @@ class PostList extends React.Component {
     return comments;
   }
 
+  renderHeader() {
+    if (this.state.keyPair) {
+      return (
+        <div>
+          <p>logged in as {this.state.keyPair.getPublicKey()}</p>
+          <InputForm
+            name={"New post"}
+            onSubmit={content => {
+              let data = { content: content };
+              this.postdb.create(data);
+            }}
+          />
+        </div>
+      );
+    }
+    return (
+      <LoginForm
+        onSubmit={keyPair => {
+          this.channel.setKeyPair(keyPair);
+          this.setState({ keyPair });
+        }}
+      />
+    );
+  }
+
   render() {
     return (
       <div>
         <h1>P2P Message Board Proof Of Concept</h1>
-        <InputForm
-          name={"New post"}
-          onSubmit={content => {
-            let data = { content: content };
-            this.postdb.create(data);
-          }}
-        />
+        {this.renderHeader()}
         {this.sortedPosts().map((sm, index) => (
           <Post
             key={index}
             post={sm}
             comments={this.sortedComments(sm.signer + ":" + sm.message.id)}
             commentdb={this.commentdb}
+            allowReply={!!this.state.keyPair}
           />
         ))}
       </div>
@@ -103,7 +144,12 @@ class PostList extends React.Component {
   }
 }
 
-function Post(props) {
+function Post(props: {
+  post: SignedMessage;
+  comments: SignedMessage[];
+  commentdb: Database;
+  allowReply: boolean;
+}) {
   return (
     <div>
       <hr />
@@ -111,25 +157,31 @@ function Post(props) {
       {props.comments.map((sm, index) => (
         <p key={index}>Comment: {sm.message.data.content}</p>
       ))}
-      <InputForm
-        name={"Reply"}
-        onSubmit={content => {
-          let parent = props.post.signer + ":" + props.post.message.id;
-          let data = {
-            parent: parent,
-            content: content
-          };
-          props.commentdb.create(data);
-        }}
-      />
+      {props.allowReply && (
+        <InputForm
+          name={"Reply"}
+          onSubmit={content => {
+            let parent = props.post.signer + ":" + props.post.message.id;
+            let data = {
+              parent: parent,
+              content: content
+            };
+            props.commentdb.create(data);
+          }}
+        />
+      )}
     </div>
   );
 }
 
-function InputForm(props) {
+function InputForm(props: {
+  onSubmit: (content: string) => void;
+  name: string;
+  password?: boolean;
+}) {
   let [content, setContent] = useState("");
 
-  let handleSubmit = e => {
+  let handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(`submitting ${content}`);
     props.onSubmit(content);
@@ -141,12 +193,25 @@ function InputForm(props) {
       <label>
         {props.name}:<br />
         <input
-          type="text"
+          type={props.password ? "password" : "text"}
           value={content}
           onChange={e => setContent(e.target.value)}
         />
       </label>
       <input type="submit" value="Submit" />
     </form>
+  );
+}
+
+function LoginForm(props: { onSubmit: (kp: KeyPair) => void }) {
+  return (
+    <InputForm
+      name={"Log in with your passphrase to post or comment"}
+      password={true}
+      onSubmit={phrase => {
+        let kp = KeyPair.fromSecretPhrase(phrase);
+        props.onSubmit(kp);
+      }}
+    />
   );
 }
