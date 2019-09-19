@@ -49,11 +49,6 @@ class PostList extends React.Component<
       keyPair: undefined
     };
 
-    setInterval(() => {
-      this.postdb.load();
-      this.commentdb.load();
-    }, 1000);
-
     this.postdb.onMessage((sm: SignedMessage) => {
       if (sm.message.type === "Delete") {
         return;
