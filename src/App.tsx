@@ -1,7 +1,10 @@
-import "./App.css";
-
-import React, { useState } from "react";
+import React from "react";
 import AxiomAPI, { Channel, Database, KeyPair, SignedMessage } from "axiom-api";
+
+import "./App.css";
+import InputForm from "./InputForm";
+import LoginForm from "./LoginForm";
+import Post from "./Post";
 
 export default function App() {
   let axiom = new AxiomAPI({ network: "alpha", verbose: true });
@@ -19,10 +22,6 @@ export default function App() {
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function Loading() {
-  return <div>loading...</div>;
 }
 
 class PostList extends React.Component<
@@ -145,76 +144,4 @@ class PostList extends React.Component<
       </div>
     );
   }
-}
-
-function Post(props: {
-  post: SignedMessage;
-  comments: SignedMessage[];
-  commentdb: Database;
-  allowReply: boolean;
-}) {
-  return (
-    <div>
-      <hr />
-      <p>Post: {props.post.message.data.content}</p>
-      {props.comments.map((sm, index) => (
-        <p key={index}>Comment: {sm.message.data.content}</p>
-      ))}
-      {props.allowReply && (
-        <InputForm
-          name={"Reply"}
-          onSubmit={content => {
-            let parent = props.post.signer + ":" + props.post.message.name;
-            let data = {
-              parent: parent,
-              content: content
-            };
-            props.commentdb.create(data);
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-function InputForm(props: {
-  onSubmit: (content: string) => void;
-  name: string;
-  password?: boolean;
-}) {
-  let [content, setContent] = useState("");
-
-  let handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(`submitting ${content}`);
-    props.onSubmit(content);
-    setContent("");
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        {props.name}:<br />
-        <input
-          type={props.password ? "password" : "text"}
-          value={content}
-          onChange={e => setContent(e.target.value)}
-        />
-      </label>
-      <input type="submit" value="Submit" />
-    </form>
-  );
-}
-
-function LoginForm(props: { onSubmit: (kp: KeyPair) => void }) {
-  return (
-    <InputForm
-      name={"Log in with your passphrase to post or comment"}
-      password={true}
-      onSubmit={phrase => {
-        let kp = KeyPair.fromSecretPhrase(phrase);
-        props.onSubmit(kp);
-      }}
-    />
-  );
 }
