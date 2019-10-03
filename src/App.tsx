@@ -6,50 +6,31 @@ import InputForm from "./InputForm";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
 
-export default function App() {
-  let axiom = new AxiomAPI({ network: "alpha", verbose: true });
-  let node = axiom.createNode();
-  let channel = node.channel("Axboard");
-  let postdb = channel.database("Posts");
-  let commentdb = channel.database("Comments");
-
-  return (
-    <div className="App">
-      <PostList postdb={postdb} commentdb={commentdb} channel={channel} />
-    </div>
-  );
-}
-
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-class PostList extends React.Component<
-  {
-    postdb: Database;
-    commentdb: Database;
-    channel: Channel;
-  },
-  {
-    posts: { [key: string]: SignedMessage };
-    comments: { [parent: string]: { [key: string]: SignedMessage } };
-    keyPair?: KeyPair;
-  }
-> {
+type AppProps = {};
+type AppState = {
+  posts: { [key: string]: SignedMessage };
+  comments: { [parent: string]: { [key: string]: SignedMessage } };
+  keyPair?: KeyPair;
+};
+
+export default class App extends React.Component<AppProps, AppState> {
+  channel: Channel;
   postdb: Database;
   commentdb: Database;
-  channel: Channel;
 
-  constructor(props: {
-    postdb: Database;
-    commentdb: Database;
-    channel: Channel;
-  }) {
+  constructor(props: AppProps) {
     super(props);
 
-    this.postdb = props.postdb;
-    this.commentdb = props.commentdb;
-    this.channel = props.channel;
+    let axiom = new AxiomAPI({ network: "alpha", verbose: true });
+    let node = axiom.createNode();
+    this.channel = node.channel("Axboard");
+    this.postdb = this.channel.database("Posts");
+    this.commentdb = this.channel.database("Comments");
+
     this.state = {
       posts: {},
       comments: {},
