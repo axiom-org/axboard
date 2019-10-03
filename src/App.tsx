@@ -17,6 +17,14 @@ export default function App() {
   );
 }
 
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function Loading() {
+  return <div>loading...</div>;
+}
+
 class PostList extends React.Component<
   {
     postdb: Database;
@@ -53,7 +61,7 @@ class PostList extends React.Component<
       if (sm.message.type === "Delete") {
         return;
       }
-      let key = sm.signer + ":" + sm.message.id;
+      let key = sm.signer + ":" + sm.message.name;
       let newPosts = { ...this.state.posts };
       newPosts[key] = sm;
       this.setState({ posts: newPosts });
@@ -63,7 +71,7 @@ class PostList extends React.Component<
       if (sm.message.type === "Delete") {
         return;
       }
-      let key = sm.signer + ":" + sm.message.id;
+      let key = sm.signer + ":" + sm.message.name;
       let parent = sm.message.data.parent;
       let newThread = { ...this.state.comments[parent] };
       newThread[key] = sm;
@@ -129,7 +137,7 @@ class PostList extends React.Component<
           <Post
             key={index}
             post={sm}
-            comments={this.sortedComments(sm.signer + ":" + sm.message.id)}
+            comments={this.sortedComments(sm.signer + ":" + sm.message.name)}
             commentdb={this.commentdb}
             allowReply={!!this.state.keyPair}
           />
@@ -156,7 +164,7 @@ function Post(props: {
         <InputForm
           name={"Reply"}
           onSubmit={content => {
-            let parent = props.post.signer + ":" + props.post.message.id;
+            let parent = props.post.signer + ":" + props.post.message.name;
             let data = {
               parent: parent,
               content: content
