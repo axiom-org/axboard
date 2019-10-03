@@ -3,18 +3,16 @@ import AxiomAPI, { Channel, Database, KeyPair, SignedMessage } from "axiom-api";
 
 import "./App.css";
 import InputForm from "./InputForm";
+import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 type AppProps = {};
 type AppState = {
   posts: { [key: string]: SignedMessage };
   comments: { [parent: string]: { [key: string]: SignedMessage } };
   keyPair?: KeyPair;
+  loading: boolean;
 };
 
 export default class App extends React.Component<AppProps, AppState> {
@@ -34,7 +32,8 @@ export default class App extends React.Component<AppProps, AppState> {
     this.state = {
       posts: {},
       comments: {},
-      keyPair: undefined
+      keyPair: undefined,
+      loading: true
     };
 
     this.postdb.onMessage((sm: SignedMessage) => {
@@ -83,6 +82,10 @@ export default class App extends React.Component<AppProps, AppState> {
     return comments;
   }
 
+  async loadMainView(): Promise<void> {
+    // TODO
+  }
+
   renderHeader() {
     if (this.state.keyPair) {
       return (
@@ -109,6 +112,10 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
+    if (this.state.loading) {
+      return <Loading />;
+    }
+
     return (
       <div>
         <h1>P2P Message Board Proof Of Concept</h1>
