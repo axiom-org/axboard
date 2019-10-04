@@ -12,12 +12,11 @@ enum Screen {
   Main
 }
 
-type PostMap = { [key: string]: AxiomObject };
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
 type AppProps = {};
 type AppState = {
   screen: Screen;
-  posts: PostMap;
+  posts: AxiomObject[];
   comments: CommentMap;
   keyPair?: KeyPair;
   loading: boolean;
@@ -39,7 +38,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     this.state = {
       screen: Screen.Initial,
-      posts: {},
+      posts: [],
       comments: {},
       keyPair: undefined,
       loading: false
@@ -48,15 +47,6 @@ export default class App extends React.Component<AppProps, AppState> {
     setTimeout(() => {
       this.loadMainView();
     }, 0);
-  }
-
-  sortedPosts(): AxiomObject[] {
-    let posts = [];
-    for (let key in this.state.posts) {
-      posts.push(this.state.posts[key]);
-    }
-    posts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-    return posts;
   }
 
   sortedComments(parent: string): AxiomObject[] {
@@ -70,11 +60,8 @@ export default class App extends React.Component<AppProps, AppState> {
 
   async loadMainView(): Promise<void> {
     this.setState({ loading: true });
-    let postlist = await this.postdb.find({ selector: {} });
-    let posts: PostMap = {};
-    for (let post of postlist) {
-      posts[post.id] = post;
-    }
+    let posts = await this.postdb.find({ selector: {} });
+    posts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
     let commentlist = await this.commentdb.find({ selector: {} });
     let comments: CommentMap = {};
     for (let comment of commentlist) {
@@ -99,9 +86,12 @@ export default class App extends React.Component<AppProps, AppState> {
           <p>logged in as {this.state.keyPair.getPublicKey()}</p>
           <InputForm
             name={"New post"}
-            onSubmit={content => {
+            onSubmit={async content => {
               let data = { content: content };
-              this.postdb.create(data);
+              let post = await this.postdb.create(data);
+              this.setState(state => ({
+                posts: [post].concat(state.posts)
+              }));
             }}
           />
         </div>
@@ -126,7 +116,7 @@ export default class App extends React.Component<AppProps, AppState> {
       <div>
         <h1>P2P Message Board Proof Of Concept</h1>
         {this.renderHeader()}
-        {this.sortedPosts().map((post, index) => (
+        {this.state.posts.map((post, index) => (
           <Post
             key={index}
             post={post}
