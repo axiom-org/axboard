@@ -1,26 +1,26 @@
 import React from "react";
-import { Database, SignedMessage } from "axiom-api";
+import { AxiomObject, Database } from "axiom-api";
 
 import InputForm from "./InputForm";
 
 export default function Post(props: {
-  post: SignedMessage;
-  comments: SignedMessage[];
+  post: AxiomObject;
+  comments: AxiomObject[];
   commentdb: Database;
   allowReply: boolean;
 }) {
   return (
     <div>
       <hr />
-      <p>Post: {props.post.message.data.content}</p>
-      {props.comments.map((sm, index) => (
-        <p key={index}>Comment: {sm.message.data.content}</p>
+      <p>Post: {props.post.data.content}</p>
+      {props.comments.map((comment, index) => (
+        <p key={index}>Comment: {comment.data.content}</p>
       ))}
       {props.allowReply && (
         <InputForm
           name={"Reply"}
           onSubmit={content => {
-            let parent = props.post.signer + ":" + props.post.message.name;
+            let parent = props.post.id;
             let data = {
               parent: parent,
               content: content

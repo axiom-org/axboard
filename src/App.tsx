@@ -1,11 +1,5 @@
 import React from "react";
-import AxiomAPI, {
-  AxiomObject,
-  Channel,
-  Database,
-  KeyPair,
-  SignedMessage
-} from "axiom-api";
+import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 
 import "./App.css";
 import InputForm from "./InputForm";
@@ -18,11 +12,11 @@ enum Screen {
   Main
 }
 
-type PostMap = { [key: string]: SignedMessage };
+type PostMap = { [key: string]: AxiomObject };
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
 type AppProps = {};
 type AppState = {
-  screen: Screen.Initial;
+  screen: Screen;
   posts: PostMap;
   comments: CommentMap;
   keyPair?: KeyPair;
@@ -51,40 +45,38 @@ export default class App extends React.Component<AppProps, AppState> {
       loading: false
     };
 
-    this.loadMainView();
+    setTimeout(() => {
+      this.loadMainView();
+    }, 0);
   }
 
-  sortedPosts(): SignedMessage[] {
+  sortedPosts(): AxiomObject[] {
     let posts = [];
     for (let key in this.state.posts) {
       posts.push(this.state.posts[key]);
     }
-    posts.sort((a, b) =>
-      b.message.timestamp.localeCompare(a.message.timestamp)
-    );
+    posts.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     return posts;
   }
 
-  sortedComments(parent: string): SignedMessage[] {
+  sortedComments(parent: string): AxiomObject[] {
     let comments = [];
     for (let key in this.state.comments[parent]) {
       comments.push(this.state.comments[parent][key]);
     }
-    comments.sort((a, b) =>
-      a.message.timestamp.localeCompare(b.message.timestamp)
-    );
+    comments.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
     return comments;
   }
 
   async loadMainView(): Promise<void> {
     this.setState({ loading: true });
     let postlist = await this.postdb.find({ selector: {} });
-    let posts = {};
+    let posts: PostMap = {};
     for (let post of postlist) {
       posts[post.id] = post;
     }
     let commentlist = await this.commentdb.find({ selector: {} });
-    let comments = {};
+    let comments: CommentMap = {};
     for (let comment of commentlist) {
       let parent = comment.data.parent;
       if (!comments[parent]) {
@@ -134,11 +126,11 @@ export default class App extends React.Component<AppProps, AppState> {
       <div>
         <h1>P2P Message Board Proof Of Concept</h1>
         {this.renderHeader()}
-        {this.sortedPosts().map((sm, index) => (
+        {this.sortedPosts().map((post, index) => (
           <Post
             key={index}
-            post={sm}
-            comments={this.sortedComments(sm.signer + ":" + sm.message.name)}
+            post={post}
+            comments={this.sortedComments(post.id)}
             commentdb={this.commentdb}
             allowReply={!!this.state.keyPair}
           />
