@@ -1,5 +1,11 @@
 import React from "react";
-import AxiomAPI, { Channel, Database, KeyPair, SignedMessage } from "axiom-api";
+import AxiomAPI, {
+  AxiomObject,
+  Channel,
+  Database,
+  KeyPair,
+  SignedMessage
+} from "axiom-api";
 
 import "./App.css";
 import InputForm from "./InputForm";
@@ -7,10 +13,18 @@ import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
 
+enum Screen {
+  Initial = 1,
+  Main
+}
+
+type PostMap = { [key: string]: SignedMessage };
+type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
 type AppProps = {};
 type AppState = {
-  posts: { [key: string]: SignedMessage };
-  comments: { [parent: string]: { [key: string]: SignedMessage } };
+  screen: Screen.Initial;
+  posts: PostMap;
+  comments: CommentMap;
   keyPair?: KeyPair;
   loading: boolean;
 };
@@ -30,34 +44,14 @@ export default class App extends React.Component<AppProps, AppState> {
     this.commentdb = this.channel.database("Comments");
 
     this.state = {
+      screen: Screen.Initial,
       posts: {},
       comments: {},
       keyPair: undefined,
-      loading: true
+      loading: false
     };
 
-    this.postdb.onMessage((sm: SignedMessage) => {
-      if (sm.message.type === "Delete") {
-        return;
-      }
-      let key = sm.signer + ":" + sm.message.name;
-      let newPosts = { ...this.state.posts };
-      newPosts[key] = sm;
-      this.setState({ posts: newPosts });
-    });
-
-    this.commentdb.onMessage((sm: SignedMessage) => {
-      if (sm.message.type === "Delete") {
-        return;
-      }
-      let key = sm.signer + ":" + sm.message.name;
-      let parent = sm.message.data.parent;
-      let newThread = { ...this.state.comments[parent] };
-      newThread[key] = sm;
-      let newComments = { ...this.state.comments };
-      newComments[parent] = newThread;
-      this.setState({ comments: newComments });
-    });
+    this.loadMainView();
   }
 
   sortedPosts(): SignedMessage[] {
@@ -83,7 +77,27 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   async loadMainView(): Promise<void> {
-    // TODO
+    this.setState({ loading: true });
+    let postlist = await this.postdb.find({ selector: {} });
+    let posts = {};
+    for (let post of postlist) {
+      posts[post.id] = post;
+    }
+    let commentlist = await this.commentdb.find({ selector: {} });
+    let comments = {};
+    for (let comment of commentlist) {
+      let parent = comment.data.parent;
+      if (!comments[parent]) {
+        comments[parent] = {};
+      }
+      comments[parent][comment.id] = comment;
+    }
+    this.setState({
+      screen: Screen.Main,
+      posts,
+      comments,
+      loading: false
+    });
   }
 
   renderHeader() {
@@ -112,7 +126,7 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    if (this.state.loading) {
+    if (this.state.screen === Screen.Initial) {
       return <Loading />;
     }
 
