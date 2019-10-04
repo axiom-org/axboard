@@ -55,8 +55,7 @@ export default class App extends React.Component<AppProps, AppState> {
     for (let key in this.state.posts) {
       posts.push(this.state.posts[key]);
     }
-    console.log("XXX posts", posts);
-    posts.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+    posts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
     return posts;
   }
 
