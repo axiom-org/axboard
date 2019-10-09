@@ -8,15 +8,9 @@ import LoginForm from "./LoginForm";
 import Post from "./Post";
 import { daysAgo } from "./Util";
 
-enum Screen {
-  Initial = 1,
-  Main
-}
-
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
 type AppProps = {};
 type AppState = {
-  screen: Screen;
   posts: AxiomObject[];
   comments: CommentMap;
   keyPair?: KeyPair;
@@ -48,11 +42,10 @@ export default class App extends React.Component<AppProps, AppState> {
     this.commentdb = this.channel.database("Comments");
 
     this.state = {
-      screen: Screen.Initial,
       posts: [],
       comments: {},
       keyPair: undefined,
-      loading: false
+      loading: true
     };
 
     setTimeout(() => {
@@ -70,7 +63,6 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   async loadMainView(): Promise<void> {
-    this.setState({ loading: true });
     let posts = await this.postdb.find({ selector: {} });
     posts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
     let commentlist = await this.commentdb.find({ selector: {} });
@@ -83,7 +75,6 @@ export default class App extends React.Component<AppProps, AppState> {
       comments[parent][comment.id] = comment;
     }
     this.setState({
-      screen: Screen.Main,
       posts,
       comments,
       loading: false
@@ -119,7 +110,7 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    if (this.state.screen === Screen.Initial) {
+    if (this.state.loading) {
       return <Loading />;
     }
 
