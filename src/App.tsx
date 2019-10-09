@@ -38,7 +38,8 @@ export default class App extends React.Component<AppProps, AppState> {
     this.postdb = this.channel.database("Posts");
     let postFilter = (post: AxiomObject): boolean => {
       let age = daysAgo(post.timestamp);
-      if (age > 2 || age < 0.05) {
+      if (age > 2 || age < -0.05) {
+        console.log("XXX rejecting post");
         return false;
       }
       return true;
