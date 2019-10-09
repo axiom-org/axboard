@@ -1,6 +1,11 @@
 import React from "react";
 import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useParams
+} from "react-router-dom";
 
 import "./App.css";
 import InputForm from "./InputForm";
@@ -113,8 +118,7 @@ export default class App extends React.Component<AppProps, AppState> {
   renderPostList() {
     return (
       <div>
-        <h1>P2P Message Board Proof Of Concept</h1>
-        {this.renderHeader()}
+        <h2>Home Page</h2>
         {this.state.posts.map((post, index) => (
           <Post
             key={index}
@@ -128,17 +132,34 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 
+  renderPostDetail(id: string) {
+    return (
+      <div>
+        <h2>Post Detail ({id})</h2>
+        <p>TODO: implement me</p>
+      </div>
+    );
+  }
+
   render() {
     if (this.state.loading) {
       return <Loading />;
     }
 
     return (
-      <Router>
-        <Switch>
-          <Route path="/">{this.renderPostList()}</Route>
-        </Switch>
-      </Router>
+      <div>
+        <h1>Axboard</h1>
+        {this.renderHeader()}
+        <Router>
+          <Switch>
+            <Route
+              path="/post/:id"
+              render={({ match }) => this.renderPostDetail(match.params.id)}
+            />
+            <Route path="/">{this.renderPostList()}</Route>
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }
