@@ -1,5 +1,6 @@
 import React from "react";
 import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./App.css";
 import InputForm from "./InputForm";
@@ -109,11 +110,7 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 
-  render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
-
+  renderPostList() {
     return (
       <div>
         <h1>P2P Message Board Proof Of Concept</h1>
@@ -128,6 +125,20 @@ export default class App extends React.Component<AppProps, AppState> {
           />
         ))}
       </div>
+    );
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <Loading />;
+    }
+
+    return (
+      <Router>
+        <Switch>
+          <Route path="/">{this.renderPostList()}</Route>
+        </Switch>
+      </Router>
     );
   }
 }
