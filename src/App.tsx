@@ -6,6 +6,7 @@ import InputForm from "./InputForm";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
+import { daysAgo } from "./Util";
 
 enum Screen {
   Initial = 1,
@@ -33,7 +34,17 @@ export default class App extends React.Component<AppProps, AppState> {
     let axiom = new AxiomAPI({ network: "alpha", verbose: true });
     let node = axiom.createNode();
     this.channel = node.channel("Axboard");
+
     this.postdb = this.channel.database("Posts");
+    let postFilter = (post: AxiomObject): boolean => {
+      let age = daysAgo(post.timestamp);
+      if (age > 2 || age < 0.05) {
+        return false;
+      }
+      return true;
+    };
+    this.postdb.useFilter(postFilter);
+
     this.commentdb = this.channel.database("Comments");
 
     this.state = {
