@@ -39,3 +39,10 @@ export function ago(date: Date): string {
   let years = Math.floor(months / 12);
   return helper(years, "year");
 }
+
+export function daysAgo(date: Date): string {
+  let msPerDay = 1000 * 60 * 60 * 24;
+  let now = new Date();
+  let ms = now.getTime() - date.getTime();
+  return ms / msPerDay;
+}
