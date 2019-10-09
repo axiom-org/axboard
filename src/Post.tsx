@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AxiomObject, Database } from "axiom-api";
 
 import InputForm from "./InputForm";
+import { ago } from "./Util";
 
 export default function Post(props: {
   post: AxiomObject;
@@ -13,7 +14,9 @@ export default function Post(props: {
   return (
     <div>
       <hr />
-      <p>Post: {props.post.data.content}</p>
+      <p>
+        Post: {props.post.data.content} (posted {ago(props.post.timestamp)})
+      </p>
       {comments.map((comment, index) => (
         <p key={index}>Comment: {comment.data.content}</p>
       ))}
