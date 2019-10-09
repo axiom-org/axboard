@@ -18,7 +18,9 @@ export default function Post(props: {
         Post: {props.post.data.content} (posted {ago(props.post.timestamp)})
       </p>
       {comments.map((comment, index) => (
-        <p key={index}>Comment: {comment.data.content}</p>
+        <p key={index}>
+          Comment: {comment.data.content} ({ago(comment.timestamp)})
+        </p>
       ))}
       {props.allowReply && (
         <InputForm
