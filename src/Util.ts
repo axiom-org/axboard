@@ -40,7 +40,7 @@ export function ago(date: Date): string {
   return helper(years, "year");
 }
 
-export function daysAgo(date: Date): string {
+export function daysAgo(date: Date): number {
   let msPerDay = 1000 * 60 * 60 * 24;
   let now = new Date();
   let ms = now.getTime() - date.getTime();
