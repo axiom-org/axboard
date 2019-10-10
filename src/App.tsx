@@ -3,8 +3,7 @@ import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  useParams
+  Switch
 } from "react-router-dom";
 
 import "./App.css";
