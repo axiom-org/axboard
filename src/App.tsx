@@ -1,10 +1,6 @@
 import React from "react";
 import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import InputForm from "./InputForm";
@@ -31,7 +27,7 @@ export default class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     setRoot(this);
-    
+
     let axiom = new AxiomAPI({ network: "alpha", verbose: true });
     let node = axiom.createNode();
     this.channel = node.channel("Axboard");
@@ -55,9 +51,8 @@ export default class App extends React.Component<AppProps, AppState> {
       loading: true
     };
 
-    setTimeout(() => {
-      this.loadMainView();
-    }, 0);
+    // Async but no need to wait for a response
+    this.loadMainView();
   }
 
   sortedComments(parent: string): AxiomObject[] {
