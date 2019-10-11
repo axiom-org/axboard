@@ -8,6 +8,7 @@ import InputForm from "./InputForm";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
+import PostDetail from "./PostDetail";
 import { daysAgo } from "./Util";
 
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
@@ -157,7 +158,7 @@ export default class App extends React.Component<AppProps, AppState> {
             <Switch>
               <Route
                 path="/post/:id"
-                render={({ match }) => this.renderPostDetail(match.params.id)}
+                render={({ match }) => <PostDetail id={match.params.id} />}
               />
               <Route path="/">{this.renderPostList()}</Route>
             </Switch>
