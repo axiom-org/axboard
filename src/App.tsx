@@ -3,6 +3,7 @@ import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
+import DataContext from "./DataContext";
 import InputForm from "./InputForm";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
@@ -141,19 +142,28 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     return (
-      <div>
-        <h1>Axboard</h1>
-        {this.renderHeader()}
-        <Router>
-          <Switch>
-            <Route
-              path="/post/:id"
-              render={({ match }) => this.renderPostDetail(match.params.id)}
-            />
-            <Route path="/">{this.renderPostList()}</Route>
-          </Switch>
-        </Router>
-      </div>
+      <DataContext.Provider
+        value={{
+          app: this,
+          posts: this.state.posts,
+          comments: this.state.comments,
+          keyPair: this.state.keyPair
+        }}
+      >
+        <div>
+          <h1>Axboard</h1>
+          {this.renderHeader()}
+          <Router>
+            <Switch>
+              <Route
+                path="/post/:id"
+                render={({ match }) => this.renderPostDetail(match.params.id)}
+              />
+              <Route path="/">{this.renderPostList()}</Route>
+            </Switch>
+          </Router>
+        </div>
+      </DataContext.Provider>
     );
   }
 }
