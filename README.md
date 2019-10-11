@@ -9,7 +9,7 @@ to deploy your own version of Axboard to GitHub Pages based on this repository:
 
 3. Modify `package.json`. The `deploy` script needs to point to your own serving repository. Replace `git@github.com:axiom-org/axboard.github.io.git` with the git URI of your serving repository. Also, the `homepage` field needs to contain your home page.
 
-4. If you want to use a custom domain, follow the [https://help.github.com/en/articles/quick-start-setting-up-a-custom-domain](GitHub Pages custom domain instructions), and also replace the contents of the `public/CNAME` file with your custom domain.
+4. If you want to use a custom domain, follow the [GitHub Pages custom domain instructions](https://help.github.com/en/articles/quick-start-setting-up-a-custom-domain), and also replace the contents of the `public/CNAME` file with your custom domain.
 
 5. If you don't want to use a custom domain, delete the `public/CNAME` file.
 
