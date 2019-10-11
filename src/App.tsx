@@ -7,7 +7,6 @@ import InputForm from "./InputForm";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
-import { setRoot } from "./Root";
 import { daysAgo } from "./Util";
 
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
@@ -26,7 +25,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
-    setRoot(this);
 
     let axiom = new AxiomAPI({ network: "alpha", verbose: true });
     let node = axiom.createNode();
