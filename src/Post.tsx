@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AxiomObject, Database } from "axiom-api";
+import { Link } from "react-router-dom";
 
 import InputForm from "./InputForm";
 import { ago } from "./Util";
@@ -15,7 +16,9 @@ export default function Post(props: {
     <div>
       <hr />
       <p>
-        Post: {props.post.data.content} (posted {ago(props.post.timestamp)})
+        <Link to={"/post/" + props.post.id}>
+          Post: {props.post.data.content} (posted {ago(props.post.timestamp)})
+        </Link>
       </p>
       {comments.map((comment, index) => (
         <p key={index}>
