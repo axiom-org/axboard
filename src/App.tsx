@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import Post from "./Post";
 import PostDetail from "./PostDetail";
+import PostList from "./PostList";
 import { daysAgo } from "./Util";
 
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
@@ -53,15 +54,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
     // Async but no need to wait for a response
     this.loadMainView();
-  }
-
-  sortedComments(parent: string): AxiomObject[] {
-    let comments = [];
-    for (let key in this.state.comments[parent]) {
-      comments.push(this.state.comments[parent][key]);
-    }
-    comments.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-    return comments;
   }
 
   async loadMainView(): Promise<void> {
@@ -111,32 +103,6 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 
-  renderPostList() {
-    return (
-      <div>
-        <h2>Home Page</h2>
-        {this.state.posts.map((post, index) => (
-          <Post
-            key={index}
-            post={post}
-            comments={this.sortedComments(post.id)}
-            commentdb={this.commentdb}
-            allowReply={!!this.state.keyPair}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  renderPostDetail(id: string) {
-    return (
-      <div>
-        <h2>Post Detail ({id})</h2>
-        <p>TODO: implement me</p>
-      </div>
-    );
-  }
-
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -160,7 +126,9 @@ export default class App extends React.Component<AppProps, AppState> {
                 path="/post/:id"
                 render={({ match }) => <PostDetail id={match.params.id} />}
               />
-              <Route path="/">{this.renderPostList()}</Route>
+              <Route path="/">
+                <PostList commentdb={this.commentdb} />
+              </Route>
             </Switch>
           </Router>
         </div>
