@@ -7,7 +7,6 @@ import DataContext from "./DataContext";
 import InputForm from "./InputForm";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
-import Post from "./Post";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import { daysAgo } from "./Util";
