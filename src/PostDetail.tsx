@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import DataContext from "./DataContext";
+import { useDataContext } from "./DataContext";
 import { ago } from "./Util";
 
 export default function PostDetail(props: { id: string }) {
-  let data = useContext(DataContext);
+  let data = useDataContext();
   if (!data.comments) {
     throw new Error("TODO: need to reload");
   }

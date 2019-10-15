@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { AxiomObject, Database } from "axiom-api";
 
-import DataContext from "./DataContext";
+import { useDataContext } from "./DataContext";
 import Post from "./Post";
 
 function mostRecentFirst(map?: { [id: string]: AxiomObject }): AxiomObject[] {
@@ -19,7 +19,7 @@ function mostRecentFirst(map?: { [id: string]: AxiomObject }): AxiomObject[] {
 // Currently just shows the home page.
 // Eventually should be extended to show a single board.
 export default function PostList(props: { commentdb: Database }) {
-  let data = useContext(DataContext);
+  let data = useDataContext();
 
   if (!data.posts || !data.comments) {
     // TODO: show a loading screen
