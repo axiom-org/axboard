@@ -97,6 +97,13 @@ export default class App extends React.Component<AppProps, AppState> {
     window.localStorage.setItem("passphrase", passphrase);
   }
 
+  logout() {
+    this.channel.setKeyPair(null);
+    this.setState({ keyPair: undefined });
+    window.localStorage.removeItem("username");
+    window.localStorage.removeItem("passphrase");
+  }
+
   render() {
     if (this.state.loading) {
       return <Loading />;
