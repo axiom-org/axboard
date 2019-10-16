@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 
@@ -6,6 +7,11 @@ export default function LoginForm() {
   let data = useDataContext();
   let [username, setUsername] = useState("");
   let [passphrase, setPassphrase] = useState("");
+
+  if (data.keyPair) {
+    // Already logged in
+    return <Redirect to="/" />;
+  }
 
   let handleSubmit = (e: any) => {
     e.preventDefault();

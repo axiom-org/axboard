@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import InputForm from "./InputForm";
@@ -8,7 +9,7 @@ export default function Header() {
   let data = useDataContext();
 
   if (!data.keyPair) {
-    return <LoginForm />;
+    return <Link to={"/login"}>log in</Link>;
   }
   return (
     <div>

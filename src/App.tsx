@@ -6,6 +6,7 @@ import "./App.css";
 import DataContext from "./DataContext";
 import Header from "./Header";
 import Loading from "./Loading";
+import LoginForm from "./LoginForm";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import { daysAgo } from "./Util";
@@ -79,7 +80,6 @@ export default class App extends React.Component<AppProps, AppState> {
     this.setState({ keyPair });
     // TODO: validate the username
     // TODO: save to local storage
-    // TODO: create a User object
   }
 
   render() {
@@ -98,13 +98,16 @@ export default class App extends React.Component<AppProps, AppState> {
       >
         <div>
           <h1>Axboard</h1>
-          <Header />
           <Router>
+            <Header />
             <Switch>
               <Route
                 path="/post/:id"
                 render={({ match }) => <PostDetail id={match.params.id} />}
               />
+              <Route path="/login">
+                <LoginForm />
+              </Route>
               <Route path="/">
                 <PostList commentdb={this.commentdb} />
               </Route>
