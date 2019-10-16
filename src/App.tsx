@@ -4,9 +4,8 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import DataContext from "./DataContext";
-import InputForm from "./InputForm";
+import Header from "./Header";
 import Loading from "./Loading";
-import LoginForm from "./LoginForm";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
 import { daysAgo } from "./Util";
@@ -74,32 +73,8 @@ export default class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  renderHeader() {
-    if (this.state.keyPair) {
-      return (
-        <div>
-          <p>logged in as {this.state.keyPair.getPublicKey()}</p>
-          <InputForm
-            name={"New post"}
-            onSubmit={async content => {
-              let data = { content: content };
-              let post = await this.postdb.create(data);
-              this.setState(state => ({
-                posts: [post].concat(state.posts)
-              }));
-            }}
-          />
-        </div>
-      );
-    }
-    return (
-      <LoginForm
-        onSubmit={keyPair => {
-          this.channel.setKeyPair(keyPair);
-          this.setState({ keyPair });
-        }}
-      />
-    );
+  login(username: string, passphrase: string) {
+    throw new Error("TODO");
   }
 
   render() {
@@ -118,7 +93,7 @@ export default class App extends React.Component<AppProps, AppState> {
       >
         <div>
           <h1>Axboard</h1>
-          {this.renderHeader()}
+          <Header />
           <Router>
             <Switch>
               <Route
