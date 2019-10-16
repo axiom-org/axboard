@@ -75,10 +75,13 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   login(username: string, passphrase: string) {
+    let regex = /^[A-Za-z0-9_]+$/;
+    if (!regex.test(username)) {
+      throw new Error(`invalid username: ${username}`);
+    }
     let keyPair = KeyPair.fromSecretPhrase(username + ";" + passphrase);
     this.channel.setKeyPair(keyPair);
     this.setState({ keyPair });
-    // TODO: validate the username
     // TODO: save to local storage
   }
 
