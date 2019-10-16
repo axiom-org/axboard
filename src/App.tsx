@@ -74,7 +74,12 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   login(username: string, passphrase: string) {
-    throw new Error("TODO");
+    let keyPair = KeyPair.fromSecretPhrase(username + ";" + passphrase);
+    this.channel.setKeyPair(keyPair);
+    this.setState({ keyPair });
+    // TODO: validate the username
+    // TODO: save to local storage
+    // TODO: create a User object
   }
 
   render() {

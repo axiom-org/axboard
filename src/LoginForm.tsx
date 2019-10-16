@@ -1,17 +1,47 @@
-import React from "react";
-import { KeyPair } from "axiom-api";
+import React, { useState } from "react";
 
-import InputForm from "./InputForm";
+import { useDataContext } from "./DataContext";
 
-export default function LoginForm(props: { onSubmit: (kp: KeyPair) => void }) {
+export default function LoginForm() {
+  let data = useDataContext();
+  let [username, setUsername] = useState("");
+  let [passphrase, setPassphrase] = useState("");
+
+  let handleSubmit = (e: any) => {
+    e.preventDefault();
+    // TODO: focus the first empty field if there is one
+    try {
+      data.app.login(username, passphrase);
+    } catch (e) {
+      // TODO: display this more nicely
+      alert(e);
+      setUsername("");
+      setPassphrase("");
+    }
+  };
+
   return (
-    <InputForm
-      name={"Log in with your passphrase to post or comment"}
-      password={true}
-      onSubmit={phrase => {
-        let kp = KeyPair.fromSecretPhrase(phrase);
-        props.onSubmit(kp);
-      }}
-    />
+    <form onSubmit={handleSubmit}>
+      <label>
+        username:
+        <br />
+        <input
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        passphrase:
+        <br />
+        <input
+          type="password"
+          value={passphrase}
+          onChange={e => setPassphrase(e.target.value)}
+        />
+      </label>
+      <input type="submit" value="log in" />
+    </form>
   );
 }
