@@ -53,6 +53,15 @@ export default class App extends React.Component<AppProps, AppState> {
 
     // Async but no need to wait for a response
     this.loadMainView();
+
+    // Must be async because it can call setState. TODO: refactor and avoid
+    setTimeout(() => {
+      let username = window.localStorage.getItem("username");
+      let passphrase = window.localStorage.getItem("passphrase");
+      if (username && passphrase) {
+        this.login(username, passphrase);
+      }
+    }, 0);
   }
 
   async loadMainView(): Promise<void> {
@@ -82,7 +91,10 @@ export default class App extends React.Component<AppProps, AppState> {
     let keyPair = KeyPair.fromSecretPhrase(username + ";" + passphrase);
     this.channel.setKeyPair(keyPair);
     this.setState({ keyPair });
-    // TODO: save to local storage
+
+    // Save to local storage
+    window.localStorage.setItem("username", username);
+    window.localStorage.setItem("passphrase", passphrase);
   }
 
   render() {
