@@ -11,6 +11,7 @@ import LoginForm from "./LoginForm";
 import PostDetail from "./PostDetail";
 import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
+import VoteSet from "./VoteSet";
 
 type ObjectMap = { [id: string]: AxiomObject };
 type CommentMap = { [parent: string]: ObjectMap };
@@ -18,6 +19,7 @@ type AppProps = {};
 type AppState = {
   posts: ObjectMap;
   comments: CommentMap;
+  votes: VoteSet;
   keyPair?: KeyPair;
   username?: string;
   loading: boolean;
@@ -27,6 +29,7 @@ export default class App extends React.Component<AppProps, AppState> {
   channel: Channel;
   postdb: Database;
   commentdb: Database;
+  votedb: Database;
 
   constructor(props: AppProps) {
     super(props);
@@ -46,10 +49,12 @@ export default class App extends React.Component<AppProps, AppState> {
     this.postdb.useFilter(postFilter);
 
     this.commentdb = this.channel.database("Comments");
+    this.votedb = this.channel.database("Votes");
 
     this.state = {
       posts: {},
       comments: {},
+      votes: new VoteSet([]),
       keyPair: undefined,
       username: undefined,
       loading: true
