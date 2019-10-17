@@ -10,7 +10,6 @@ export default function HomePage() {
     let post = data.posts[id];
     postlist.push(post);
   }
-  console.log(postlist);
   postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
   return (

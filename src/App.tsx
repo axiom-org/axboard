@@ -16,7 +16,6 @@ type ObjectMap = { [id: string]: AxiomObject };
 type CommentMap = { [parent: string]: ObjectMap };
 type AppProps = {};
 type AppState = {
-  postlist: AxiomObject[];
   posts: ObjectMap;
   comments: CommentMap;
   keyPair?: KeyPair;
@@ -49,7 +48,6 @@ export default class App extends React.Component<AppProps, AppState> {
     this.commentdb = this.channel.database("Comments");
 
     this.state = {
-      postlist: [],
       posts: {},
       comments: {},
       keyPair: undefined,
@@ -72,7 +70,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
   async loadMainView(): Promise<void> {
     let postlist = await this.postdb.find({ selector: {} });
-    postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
     let posts: ObjectMap = {};
     for (let post of postlist) {
       posts[post.id] = post;
@@ -90,7 +87,6 @@ export default class App extends React.Component<AppProps, AppState> {
 
     this.setState({
       posts,
-      postlist,
       comments,
       loading: false
     });
@@ -127,7 +123,6 @@ export default class App extends React.Component<AppProps, AppState> {
         value={{
           app: this,
           posts: this.state.posts,
-          postlist: this.state.postlist,
           comments: this.state.comments,
           username: this.state.username,
           keyPair: this.state.keyPair
