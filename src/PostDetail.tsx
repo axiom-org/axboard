@@ -6,7 +6,7 @@ import { ago } from "./Util";
 export default function PostDetail(props: { id: string }) {
   let data = useDataContext();
   if (!data.comments) {
-    throw new Error("TODO: need to reload");
+    throw new Error("PostDetail needs comments");
   }
 
   let cmap = data.comments[props.id];

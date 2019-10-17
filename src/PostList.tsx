@@ -23,7 +23,7 @@ export default function PostList(props: { posts: AxiomObject[] }) {
 
   if (!data.comments) {
     // TODO: show a loading screen
-    throw new Error("empty DataContext in PostList");
+    throw new Error("PostList needs comments");
   }
   let comments = data.comments;
 

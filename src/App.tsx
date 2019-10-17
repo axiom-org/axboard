@@ -9,6 +9,7 @@ import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import PostDetail from "./PostDetail";
 import PostList from "./PostList";
+import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
 
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
@@ -126,6 +127,15 @@ export default class App extends React.Component<AppProps, AppState> {
               <Route
                 path="/post/:id"
                 render={({ match }) => <PostDetail id={match.params.id} />}
+              />
+              <Route
+                path="/user/:name/:publicKey"
+                render={({ match }) => (
+                  <UserDetail
+                    name={match.params.name}
+                    publicKey={match.params.publicKey}
+                  />
+                )}
               />
               <Route path="/login">
                 <LoginForm />
