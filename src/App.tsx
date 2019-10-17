@@ -1,6 +1,6 @@
 import React from "react";
 import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import DataContext from "./DataContext";
@@ -122,36 +122,36 @@ export default class App extends React.Component<AppProps, AppState> {
           keyPair: this.state.keyPair
         }}
       >
-        <div>
-          <h1>Axboard</h1>
-          <Router>
-            <Header />
-            <Switch>
-              <Route
-                path="/post/:id"
-                render={({ match }) => <PostDetail id={match.params.id} />}
-              />
-              <Route
-                path="/u/:name/:publicKey"
-                render={({ match }) => (
-                  <UserDetail
-                    name={match.params.name}
-                    publicKey={match.params.publicKey}
-                  />
-                )}
-              />
-              <Route path="/login">
-                <LoginForm />
-              </Route>
-              <Route path="/">
-                <div>
-                  <h2>Home Page</h2>
-                  <PostList posts={this.state.posts} />
-                </div>
-              </Route>
-            </Switch>
-          </Router>
-        </div>
+        <Router>
+          <h1>
+            <Link to="/">Axboard</Link>
+          </h1>
+          <Header />
+          <Switch>
+            <Route
+              path="/post/:id"
+              render={({ match }) => <PostDetail id={match.params.id} />}
+            />
+            <Route
+              path="/u/:name/:publicKey"
+              render={({ match }) => (
+                <UserDetail
+                  name={match.params.name}
+                  publicKey={match.params.publicKey}
+                />
+              )}
+            />
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+            <Route path="/">
+              <div>
+                <h2>Home Page</h2>
+                <PostList posts={this.state.posts} />
+              </div>
+            </Route>
+          </Switch>
+        </Router>
       </DataContext.Provider>
     );
   }
