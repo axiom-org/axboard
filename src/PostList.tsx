@@ -29,7 +29,6 @@ export default function PostList(props: { posts: AxiomObject[] }) {
 
   return (
     <div>
-      <h2>Home Page</h2>
       {props.posts.map((post, index) => {
         let clist = comments[post.id];
         return (
