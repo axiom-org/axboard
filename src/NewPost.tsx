@@ -15,13 +15,14 @@ export default function NewPost(props: { board: string }) {
   if (!data.username) {
     return <div>log in to post</div>;
   }
+  let author: string = data.username;
 
   return (
     <InputForm
       name={"New post"}
       onSubmit={async content => {
-        let post = await data.app.postdb.create({
-          author: data.username,
+        let post = await data.app.createPost({
+          author: author,
           board: props.board,
           content: content
         });

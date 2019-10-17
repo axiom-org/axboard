@@ -92,6 +92,20 @@ export default class App extends React.Component<AppProps, AppState> {
     });
   }
 
+  async createPost(args: {
+    author: string;
+    board: string;
+    content: string;
+  }): Promise<AxiomObject> {
+    let post = await this.postdb.create(args);
+    this.setState(state => {
+      let newPosts = { ...state.posts };
+      newPosts[post.id] = post;
+      return { ...state, posts: newPosts };
+    });
+    return post;
+  }
+
   login(username: string, passphrase: string) {
     let regex = /^[A-Za-z0-9_]+$/;
     if (!regex.test(username)) {
