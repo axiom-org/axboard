@@ -15,7 +15,7 @@ import { daysAgo } from "./Util";
 type CommentMap = { [parent: string]: { [key: string]: AxiomObject } };
 type AppProps = {};
 type AppState = {
-  posts: AxiomObject[];
+  postlist: AxiomObject[];
   comments: CommentMap;
   keyPair?: KeyPair;
   username?: string;
@@ -47,7 +47,7 @@ export default class App extends React.Component<AppProps, AppState> {
     this.commentdb = this.channel.database("Comments");
 
     this.state = {
-      posts: [],
+      postlist: [],
       comments: {},
       keyPair: undefined,
       username: undefined,
@@ -68,8 +68,8 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   async loadMainView(): Promise<void> {
-    let posts = await this.postdb.find({ selector: {} });
-    posts.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    let postlist = await this.postdb.find({ selector: {} });
+    postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
     let commentlist = await this.commentdb.find({ selector: {} });
     let comments: CommentMap = {};
     for (let comment of commentlist) {
@@ -80,7 +80,7 @@ export default class App extends React.Component<AppProps, AppState> {
       comments[parent][comment.id] = comment;
     }
     this.setState({
-      posts,
+      postlist,
       comments,
       loading: false
     });
@@ -116,7 +116,7 @@ export default class App extends React.Component<AppProps, AppState> {
       <DataContext.Provider
         value={{
           app: this,
-          posts: this.state.posts,
+          postlist: this.state.postlist,
           comments: this.state.comments,
           username: this.state.username,
           keyPair: this.state.keyPair
@@ -147,7 +147,7 @@ export default class App extends React.Component<AppProps, AppState> {
             <Route path="/">
               <div>
                 <h2>Home Page</h2>
-                <PostList posts={this.state.posts} />
+                <PostList posts={this.state.postlist} />
               </div>
             </Route>
           </Switch>

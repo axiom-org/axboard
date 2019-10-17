@@ -16,17 +16,15 @@ export default function Post(props: {
   return (
     <div>
       <hr />
-      <p>
-        <Link to={"/post/" + props.post.id}>{props.post.data.content}</Link>
-        <div>
-          posted by{" "}
-          <UserReference
-            username={props.post.data.author}
-            publicKey={props.post.owner}
-          />{" "}
-          {ago(props.post.timestamp)}
-        </div>
-      </p>
+      <Link to={"/post/" + props.post.id}>{props.post.data.content}</Link>
+      <div>
+        posted by{" "}
+        <UserReference
+          username={props.post.data.author}
+          publicKey={props.post.owner}
+        />{" "}
+        {ago(props.post.timestamp)}
+      </div>
       {comments.map((comment, index) => (
         <p key={index}>
           Comment: {comment.data.content} ({ago(comment.timestamp)})

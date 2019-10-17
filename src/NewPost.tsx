@@ -20,7 +20,7 @@ export default function NewPost(props: { board: string }) {
           content: content
         });
         data.app.setState(state => ({
-          posts: [post].concat(state.posts)
+          postlist: [post].concat(state.postlist)
         }));
       }}
     />

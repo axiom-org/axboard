@@ -8,7 +8,7 @@ type CommentMap = { [parent: string]: ObjectMap };
 
 type DataContextType = {
   app: App;
-  posts?: AxiomObject[];
+  postlist?: AxiomObject[];
   comments?: CommentMap;
   username?: string;
   keyPair?: KeyPair;
