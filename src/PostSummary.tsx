@@ -26,6 +26,8 @@ export default function PostSummary(props: { post: AxiomObject }) {
       </div>
       <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
       <div>score: {data.votes.getScore(props.post.id)}</div>
+      <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
+      <div onClick={() => data.app.downvote(props.post.id)}>downvote</div>
     </div>
   );
 }
