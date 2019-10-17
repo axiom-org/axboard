@@ -2,6 +2,7 @@ import React from "react";
 
 import { useDataContext } from "./DataContext";
 import ReplyForm from "./ReplyForm";
+import UserReference from "./UserReference";
 import { ago } from "./Util";
 
 export default function PostDetail(props: { id: string }) {
@@ -24,7 +25,14 @@ export default function PostDetail(props: { id: string }) {
       {post.data.content}
       {comments.map((comment, index) => (
         <p key={index}>
-          Comment: {comment.data.content} ({ago(comment.timestamp)})
+          Comment: {comment.data.content}
+          <br />
+          by{" "}
+          <UserReference
+            username={comment.data.author}
+            publicKey={comment.owner}
+          />{" "}
+          ({ago(comment.timestamp)})
         </p>
       ))}
       <ReplyForm post={post} />
