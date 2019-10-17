@@ -15,7 +15,7 @@ export default function ReplyForm(props: { post: AxiomObject }) {
     <InputForm
       name={"Reply"}
       onSubmit={async content => {
-        let newComment = await data.app.createComment({
+        await data.app.createComment({
           author,
           board: props.post.data.board,
           content,

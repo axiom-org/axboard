@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { AxiomObject, Database } from "axiom-api";
+import React from "react";
+import { AxiomObject } from "axiom-api";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
