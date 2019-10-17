@@ -131,7 +131,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 <LoginForm />
               </Route>
               <Route path="/">
-                <PostList commentdb={this.commentdb} />
+                <PostList posts={this.state.posts} />
               </Route>
             </Switch>
           </Router>

@@ -1,5 +1,5 @@
 import React from "react";
-import { AxiomObject, Database } from "axiom-api";
+import { AxiomObject } from "axiom-api";
 
 import { useDataContext } from "./DataContext";
 import Post from "./Post";
@@ -18,10 +18,10 @@ function mostRecentFirst(map?: { [id: string]: AxiomObject }): AxiomObject[] {
 
 // Currently just shows the home page.
 // Eventually should be extended to show a single board.
-export default function PostList(props: { commentdb: Database }) {
+export default function PostList(props: { posts: AxiomObject[] }) {
   let data = useDataContext();
 
-  if (!data.posts || !data.comments) {
+  if (!data.comments) {
     // TODO: show a loading screen
     throw new Error("empty DataContext in PostList");
   }
@@ -30,14 +30,14 @@ export default function PostList(props: { commentdb: Database }) {
   return (
     <div>
       <h2>Home Page</h2>
-      {data.posts.map((post, index) => {
+      {props.posts.map((post, index) => {
         let clist = comments[post.id];
         return (
           <Post
             key={index}
             post={post}
             comments={mostRecentFirst(clist)}
-            commentdb={props.commentdb}
+            commentdb={data.app.commentdb}
             allowReply={!!data.keyPair}
           />
         );
