@@ -5,10 +5,10 @@ import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import DataContext from "./DataContext";
 import Header from "./Header";
+import HomePage from "./HomePage";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import PostDetail from "./PostDetail";
-import PostList from "./PostList";
 import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
 
@@ -126,6 +126,7 @@ export default class App extends React.Component<AppProps, AppState> {
       <DataContext.Provider
         value={{
           app: this,
+          posts: this.state.posts,
           postlist: this.state.postlist,
           comments: this.state.comments,
           username: this.state.username,
@@ -155,10 +156,7 @@ export default class App extends React.Component<AppProps, AppState> {
               <LoginForm />
             </Route>
             <Route path="/">
-              <div>
-                <h2>Home Page</h2>
-                <PostList posts={this.state.postlist} />
-              </div>
+              <HomePage />
             </Route>
           </Switch>
         </Router>
