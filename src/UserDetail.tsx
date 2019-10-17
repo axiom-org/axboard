@@ -5,16 +5,15 @@ import PostList from "./PostList";
 
 export default function UserDetail(props: { name: string; publicKey: string }) {
   let data = useDataContext();
-  if (!data.postlist || !data.comments) {
-    throw new Error("UserDetail needs posts and comments");
-  }
 
-  let posts = [];
-  for (let post of data.postlist) {
+  let postlist = [];
+  for (let id in data.posts) {
+    let post = data.posts[id];
     if (post.owner === props.publicKey) {
-      posts.push(post);
+      postlist.push(post);
     }
   }
+  postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
   return (
     <div>
@@ -22,7 +21,7 @@ export default function UserDetail(props: { name: string; publicKey: string }) {
         posts from {props.name} ({props.publicKey}
         ):
       </h2>
-      <PostList posts={posts} />
+      <PostList posts={postlist} />
     </div>
   );
 }
