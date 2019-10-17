@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
-import InputForm from "./InputForm";
+import NewPost from "./NewPost";
 
 export default function Header() {
   let data = useDataContext();
@@ -14,15 +14,7 @@ export default function Header() {
     <div>
       <p>logged in as {data.keyPair.getPublicKey()}</p>
       <div onClick={() => data.app.logout()}>log out</div>
-      <InputForm
-        name={"New post"}
-        onSubmit={async content => {
-          let post = await data.app.postdb.create({ content: content });
-          data.app.setState(state => ({
-            posts: [post].concat(state.posts)
-          }));
-        }}
-      />
+      <NewPost board="none" />
     </div>
   );
 }
