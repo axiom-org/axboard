@@ -34,6 +34,19 @@ export default class VoteSet {
     }
   }
 
+  getScore(id: string): number {
+    return this.score[id] || 0;
+  }
+
+  getKarma(publicKey: string): number {
+    return this.karma[publicKey] || 0;
+  }
+
+  getVote(owner: string, target: string): AxiomObject | null {
+    let key = `${owner}:${target}`;
+    return this.votes[key] || null;
+  }
+
   addVote(vote: AxiomObject) {
     if (Math.abs(vote.data.score) !== 1 || !vote.data.target) {
       return;
@@ -56,5 +69,6 @@ export default class VoteSet {
 
     delete this.votes[key];
     this.modify(vote.data.target, vote.owner, -vote.data.score);
+    vote.forget();
   }
 }

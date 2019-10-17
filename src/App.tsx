@@ -90,9 +90,13 @@ export default class App extends React.Component<AppProps, AppState> {
       comments[parent][comment.id] = comment;
     }
 
+    let votelist = await this.votedb.find({ selector: {} });
+    let votes = new VoteSet(votelist);
+
     this.setState({
       posts,
       comments,
+      votes,
       loading: false
     });
   }
@@ -126,6 +130,13 @@ export default class App extends React.Component<AppProps, AppState> {
       return { ...state, comments: newComments };
     });
     return comment;
+  }
+
+  async vote(args: { target: string; score: number }): Promise<AxiomObject> {
+    let vote = await this.votedb.create(args);
+    this.state.votes.addVote(vote);
+    this.forceUpdate();
+    return vote;
   }
 
   login(username: string, passphrase: string) {
