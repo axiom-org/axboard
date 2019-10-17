@@ -129,7 +129,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 render={({ match }) => <PostDetail id={match.params.id} />}
               />
               <Route
-                path="/user/:name/:publicKey"
+                path="/u/:name/:publicKey"
                 render={({ match }) => (
                   <UserDetail
                     name={match.params.name}
