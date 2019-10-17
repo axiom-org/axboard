@@ -3,6 +3,7 @@ import { AxiomObject, Database } from "axiom-api";
 import { Link } from "react-router-dom";
 
 import InputForm from "./InputForm";
+import UserReference from "./UserReference";
 import { ago } from "./Util";
 
 export default function Post(props: {
@@ -16,9 +17,15 @@ export default function Post(props: {
     <div>
       <hr />
       <p>
-        <Link to={"/post/" + props.post.id}>
-          Post: {props.post.data.content} (posted {ago(props.post.timestamp)})
-        </Link>
+        <Link to={"/post/" + props.post.id}>{props.post.data.content}</Link>
+        <div>
+          posted by{" "}
+          <UserReference
+            username={props.post.data.author}
+            publicKey={props.post.owner}
+          />{" "}
+          {ago(props.post.timestamp)}
+        </div>
       </p>
       {comments.map((comment, index) => (
         <p key={index}>
