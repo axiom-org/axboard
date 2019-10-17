@@ -1,14 +1,15 @@
 import React from "react";
 
 import { useDataContext } from "./DataContext";
+import ReplyForm from "./ReplyForm";
 import { ago } from "./Util";
 
 export default function PostDetail(props: { id: string }) {
   let data = useDataContext();
-  if (!data.comments) {
-    throw new Error("PostDetail needs comments");
+  let post = data.posts[props.id];
+  if (!post) {
+    return <div>post not found</div>;
   }
-
   let cmap = data.comments[props.id];
 
   let comments = [];
@@ -20,11 +21,13 @@ export default function PostDetail(props: { id: string }) {
   return (
     <div>
       <h2>Post Detail ({props.id})</h2>
+      {post.data.content}
       {comments.map((comment, index) => (
         <p key={index}>
           Comment: {comment.data.content} ({ago(comment.timestamp)})
         </p>
       ))}
+      <ReplyForm post={post} />
     </div>
   );
 }
