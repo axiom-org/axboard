@@ -18,6 +18,7 @@ type AppState = {
   posts: AxiomObject[];
   comments: CommentMap;
   keyPair?: KeyPair;
+  username?: string;
   loading: boolean;
 };
 
@@ -49,6 +50,7 @@ export default class App extends React.Component<AppProps, AppState> {
       posts: [],
       comments: {},
       keyPair: undefined,
+      username: undefined,
       loading: true
     };
 
@@ -91,7 +93,7 @@ export default class App extends React.Component<AppProps, AppState> {
     }
     let keyPair = KeyPair.fromSecretPhrase(username + ";" + passphrase);
     this.channel.setKeyPair(keyPair);
-    this.setState({ keyPair });
+    this.setState({ keyPair, username });
 
     // Save to local storage
     window.localStorage.setItem("username", username);
@@ -116,6 +118,7 @@ export default class App extends React.Component<AppProps, AppState> {
           app: this,
           posts: this.state.posts,
           comments: this.state.comments,
+          username: this.state.username,
           keyPair: this.state.keyPair
         }}
       >

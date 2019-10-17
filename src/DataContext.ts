@@ -10,6 +10,7 @@ type DataContextType = {
   app: App;
   posts?: AxiomObject[];
   comments?: CommentMap;
+  username?: string;
   keyPair?: KeyPair;
 };
 
