@@ -56,7 +56,7 @@ export default class App extends React.Component<AppProps, AppState> {
     };
 
     // Async but no need to wait for a response
-    this.loadMainView();
+    this.loadData();
 
     // Must be async because it can call setState. TODO: refactor and avoid
     setTimeout(() => {
@@ -68,7 +68,7 @@ export default class App extends React.Component<AppProps, AppState> {
     }, 0);
   }
 
-  async loadMainView(): Promise<void> {
+  async loadData(): Promise<void> {
     let postlist = await this.postdb.find({ selector: {} });
     let posts: ObjectMap = {};
     for (let post of postlist) {
