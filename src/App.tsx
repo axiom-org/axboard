@@ -106,6 +106,23 @@ export default class App extends React.Component<AppProps, AppState> {
     return post;
   }
 
+  async createComment(args: {
+    author: string;
+    board: string;
+    content: string;
+    parent: string;
+  }): Promise<AxiomObject> {
+    let comment = await this.commentdb.create(args);
+    this.setState(state => {
+      let newCommentSubmap = { ...state.comments[args.parent] };
+      newCommentSubmap[comment.id] = comment;
+      let newComments = { ...state.comments };
+      newComments[args.parent] = newCommentSubmap;
+      return { ...state, comments: newComments };
+    });
+    return comment;
+  }
+
   login(username: string, passphrase: string) {
     let regex = /^[A-Za-z0-9_]+$/;
     if (!regex.test(username)) {
