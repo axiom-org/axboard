@@ -171,6 +171,7 @@ export default class App extends React.Component<AppProps, AppState> {
           app: this,
           posts: this.state.posts,
           comments: this.state.comments,
+          votes: this.state.votes,
           username: this.state.username,
           keyPair: this.state.keyPair
         }}

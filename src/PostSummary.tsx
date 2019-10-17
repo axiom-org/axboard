@@ -25,6 +25,7 @@ export default function PostSummary(props: { post: AxiomObject }) {
         {ago(props.post.timestamp)}
       </div>
       <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
+      <div>score: {data.votes.getScore(props.post.id)}</div>
     </div>
   );
 }

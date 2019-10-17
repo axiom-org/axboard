@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AxiomObject, KeyPair } from "axiom-api";
 
 import App from "./App";
+import VoteSet from "./VoteSet";
 
 type ObjectMap = { [id: string]: AxiomObject };
 type CommentMap = { [parent: string]: ObjectMap };
@@ -10,6 +11,7 @@ type DataContextType = {
   app: App;
   posts: ObjectMap;
   comments: CommentMap;
+  votes: VoteSet;
   username?: string;
   keyPair?: KeyPair;
 };
