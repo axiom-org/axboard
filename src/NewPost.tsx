@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import InputForm from "./InputForm";
 
 export default function NewPost(props: { board: string }) {
   let data = useDataContext();
+  let [id, setID] = useState("");
+
+  if (id.length > 0) {
+    return <Redirect to={`/post/${id}`} />;
+  }
 
   if (!data.username) {
     return <div>log in to post</div>;
@@ -19,9 +25,7 @@ export default function NewPost(props: { board: string }) {
           board: props.board,
           content: content
         });
-        data.app.setState(state => ({
-          postlist: [post].concat(state.postlist)
-        }));
+        setID(post.id);
       }}
     />
   );
