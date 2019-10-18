@@ -30,6 +30,7 @@ export default class App extends React.Component<AppProps, AppState> {
   postdb: Database;
   commentdb: Database;
   votedb: Database;
+  boarddb: Database;
 
   constructor(props: AppProps) {
     super(props);
@@ -50,6 +51,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     this.commentdb = this.channel.database("Comments");
     this.votedb = this.channel.database("Votes");
+    this.boarddb = this.channel.database("Boards");
 
     this.state = {
       posts: {},
