@@ -20,6 +20,7 @@ type AppState = {
   posts: ObjectMap;
   comments: CommentMap;
   votes: VoteSet;
+  boards: ObjectMap;
   keyPair?: KeyPair;
   username?: string;
   loading: boolean;
@@ -57,6 +58,7 @@ export default class App extends React.Component<AppProps, AppState> {
       posts: {},
       comments: {},
       votes: new VoteSet([]),
+      boards: {},
       keyPair: undefined,
       username: undefined,
       loading: true
@@ -95,10 +97,17 @@ export default class App extends React.Component<AppProps, AppState> {
     let votelist = await this.votedb.find({ selector: {} });
     let votes = new VoteSet(votelist);
 
+    let boardlist = await this.boarddb.find({ selector: {} });
+    let boards: ObjectMap = {};
+    for (let board of boardlist) {
+      boards[board.id] = board;
+    }
+
     this.setState({
       posts,
       comments,
       votes,
+      boards,
       loading: false
     });
   }
