@@ -8,6 +8,7 @@ import Header from "./Header";
 import HomePage from "./HomePage";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
+import NewBoard from "./NewBoard";
 import PostDetail from "./PostDetail";
 import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
@@ -216,6 +217,9 @@ export default class App extends React.Component<AppProps, AppState> {
             />
             <Route path="/login">
               <LoginForm />
+            </Route>
+            <Route path="/newboard">
+              <NewBoard />
             </Route>
             <Route path="/">
               <HomePage />
