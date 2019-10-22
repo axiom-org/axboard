@@ -35,7 +35,7 @@ export default function NewBoard() {
         <br />
         <input
           value={name}
-          onChange={e => setName(e.target.value.replace(/[\W]+/g, ""))}
+          onChange={e => setName(e.target.value.replace(/\W+/g, ""))}
         />
       </label>
       <label>
