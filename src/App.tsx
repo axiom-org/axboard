@@ -3,6 +3,7 @@ import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 import "./App.css";
+import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
 import Header from "./Header";
 import HomePage from "./HomePage";
@@ -213,6 +214,12 @@ export default class App extends React.Component<AppProps, AppState> {
                   name={match.params.name}
                   publicKey={match.params.publicKey}
                 />
+              )}
+            />
+            <Route
+              path="/b/:name/:id"
+              render={({ match }) => (
+                <BoardPage name={match.params.name} id={match.params.id} />
               )}
             />
             <Route path="/login">
