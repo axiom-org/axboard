@@ -42,8 +42,8 @@ export default function NewBoard() {
       <label>
         description:
         <br />
-        <input
-          textarea={description}
+        <textarea
+          value={description}
           onChange={e => setDescription(e.target.value)}
         />
       </label>
