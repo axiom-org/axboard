@@ -145,6 +145,19 @@ export default class App extends React.Component<AppProps, AppState> {
     return comment;
   }
 
+  async createBoard(args: {
+    name: string;
+    description: string;
+  }): Promise<AxiomObject> {
+    let board = await this.boarddb.create(args);
+    this.setState(state => {
+      let newBoards = { ...state.boards };
+      newBoards[board.id] = board;
+      return { ...state, boards: newBoards };
+    });
+    return board;
+  }
+
   async vote(args: { target: string; score: number }): Promise<AxiomObject> {
     let vote = await this.votedb.create(args);
     this.state.votes.addVote(vote);

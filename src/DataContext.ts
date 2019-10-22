@@ -12,6 +12,7 @@ type DataContextType = {
   posts: ObjectMap;
   comments: CommentMap;
   votes: VoteSet;
+  boards: ObjectMap;
   username?: string;
   keyPair?: KeyPair;
 };
