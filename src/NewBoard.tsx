@@ -24,7 +24,7 @@ export default function NewBoard() {
       return;
     }
     console.log(`creating board with name: ${name}`);
-    let board = await data.app.createBoard({ name, description });
+    let board = await data.app.createBoard({ description }, name);
     console.log(board);
     setRedirect(`/b/${board.name}/${board.id}`);
   };
