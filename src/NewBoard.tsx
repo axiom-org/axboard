@@ -23,7 +23,9 @@ export default function NewBoard() {
       alert("name too short");
       return;
     }
+    console.log(`creating board with name: ${name}`);
     let board = await data.app.createBoard({ name, description });
+    console.log(board);
     setRedirect(`/b/${board.name}/${board.id}`);
   };
 
@@ -36,7 +38,7 @@ export default function NewBoard() {
         <br />
         <input
           value={name}
-          onChange={e => setName(e.target.value.replace(/\W+/g, ""))}
+          onChange={e => setName(e.target.value.replace(/[\W_]/g, ""))}
         />
       </label>
       <label>
