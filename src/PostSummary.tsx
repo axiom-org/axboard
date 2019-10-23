@@ -12,7 +12,7 @@ export default function PostSummary(props: { post: AxiomObject }) {
   let numComments = comments ? Object.keys(comments).length : 0;
   let commentsPhrase = `${numComments} comment${numComments === 1 ? "" : "s"}`;
 
-  let board = data.boards[post.data.board];
+  let board = data.boards[props.post.data.board];
 
   return (
     <div>
