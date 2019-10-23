@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
-import NewPost from "./NewPost";
 
 export default function Header() {
   let data = useDataContext();
@@ -14,7 +13,6 @@ export default function Header() {
     <div>
       <p>logged in as {data.keyPair.getPublicKey()}</p>
       <div onClick={() => data.app.logout()}>log out</div>
-      <NewPost board="none" />
     </div>
   );
 }

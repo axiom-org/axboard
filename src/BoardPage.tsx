@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useDataContext } from "./DataContext";
+import NewPost from "./NewPost";
 import PostList from "./PostList";
 
 export default function BoardPage(props: { id: string; name?: string }) {
@@ -26,6 +27,8 @@ export default function BoardPage(props: { id: string; name?: string }) {
   return (
     <div>
       <h2>{"b/" + board.name}</h2>
+      <NewPost board={board.id} />
+      <hr />
       <PostList posts={postlist} />
     </div>
   );

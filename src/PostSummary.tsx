@@ -12,6 +12,8 @@ export default function PostSummary(props: { post: AxiomObject }) {
   let numComments = comments ? Object.keys(comments).length : 0;
   let commentsPhrase = `${numComments} comment${numComments === 1 ? "" : "s"}`;
 
+  let board = data.boards[post.data.board];
+
   return (
     <div>
       <hr />
@@ -23,6 +25,12 @@ export default function PostSummary(props: { post: AxiomObject }) {
           publicKey={props.post.owner}
         />{" "}
         {ago(props.post.timestamp)}
+        {board && (
+          <div>
+            in{" "}
+            <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
+          </div>
+        )}
       </div>
       <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
       <div>score: {data.votes.getScore(props.post.id)}</div>
