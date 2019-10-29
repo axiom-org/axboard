@@ -46,3 +46,10 @@ export function daysAgo(date: Date): number {
   let ms = now.getTime() - date.getTime();
   return ms / msPerDay;
 }
+
+export function isEmpty(obj: any): boolean {
+  for (let _key in obj) {
+    return false;
+  }
+  return true;
+}
