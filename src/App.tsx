@@ -1,5 +1,5 @@
 import React from "react";
-import AxiomAPI, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
+import Axiom, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 import "./App.css";
@@ -38,9 +38,8 @@ export default class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
 
-    let axiom = new AxiomAPI({ network: "alpha", verbose: true });
-    let node = axiom.createNode();
-    this.channel = node.channel("Axboard");
+    let axiom = new Axiom({ network: "prod", verbose: true });
+    this.channel = axiom.channel("Axboard");
 
     this.postdb = this.channel.database("Posts");
     let postFilter = (post: AxiomObject): boolean => {
