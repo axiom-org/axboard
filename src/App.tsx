@@ -42,18 +42,20 @@ export default class App extends React.Component<AppProps, AppState> {
     this.channel = axiom.channel("Axboard");
 
     this.postdb = this.channel.database("Posts");
-    let postFilter = (post: AxiomObject): boolean => {
-      let age = daysAgo(post.timestamp);
+    this.commentdb = this.channel.database("Comments");
+    this.votedb = this.channel.database("Votes");
+    this.boarddb = this.channel.database("Boards");
+
+    let ageFilter = (obj: AxiomObject): boolean => {
+      let age = daysAgo(obj.timestamp);
       if (age > 2 || age < -0.05) {
         return false;
       }
       return true;
     };
-    this.postdb.useFilter(postFilter);
 
-    this.commentdb = this.channel.database("Comments");
-    this.votedb = this.channel.database("Votes");
-    this.boarddb = this.channel.database("Boards");
+    this.postdb.useFilter(ageFilter);
+    this.commentdb.useFilter(ageFilter);
 
     this.state = {
       posts: {},
