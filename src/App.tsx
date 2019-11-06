@@ -58,6 +58,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     this.postdb.useFilter(ageFilter);
     this.commentdb.useFilter(ageFilter);
+    this.votedb.useFilter(ageFilter);
 
     this.state = {
       posts: {},
