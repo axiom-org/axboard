@@ -4,7 +4,7 @@ export default class VoteSet {
   // Karma for each user
   karma: { [publicKey: string]: number };
 
-  // Score for each object voted on
+  // Score for each object voted on, not including the implicit self-vote
   score: { [id: string]: number };
 
   // Keyed by owner:target
@@ -34,8 +34,9 @@ export default class VoteSet {
     }
   }
 
+  // Score which does include implicit self-vote
   getScore(id: string): number {
-    return this.score[id] || 0;
+    return 1 + (this.score[id] || 0);
   }
 
   getKarma(publicKey: string): number {
@@ -49,6 +50,11 @@ export default class VoteSet {
 
   addVote(vote: AxiomObject) {
     if (Math.abs(vote.data.score) !== 1 || !vote.data.target) {
+      return;
+    }
+    let votee = vote.data.target.split(":")[0];
+    if (votee === vote.owner) {
+      // No self-votes
       return;
     }
 

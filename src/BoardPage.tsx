@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
-import NewPost from "./NewPost";
 import PostList from "./PostList";
 
 export default function BoardPage(props: { id: string; name?: string }) {
