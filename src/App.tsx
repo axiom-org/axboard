@@ -10,6 +10,7 @@ import HomePage from "./HomePage";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import NewBoard from "./NewBoard";
+import Page404 from "./Page404";
 import PostDetail from "./PostDetail";
 import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
@@ -250,8 +251,11 @@ export default class App extends React.Component<AppProps, AppState> {
             <Route path="/newboard">
               <NewBoard />
             </Route>
-            <Route path="/">
+            <Route path="/" exact>
               <HomePage />
+            </Route>
+            <Route>
+              <Page404 />
             </Route>
           </Switch>
         </Router>
