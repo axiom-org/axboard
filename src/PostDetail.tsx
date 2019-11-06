@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import ReplyForm from "./ReplyForm";
@@ -19,9 +20,22 @@ export default function PostDetail(props: { id: string }) {
   }
   comments.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 
+  let board = data.boards[post.data.board];
+
   return (
     <div>
       <h2>Post Detail ({props.id})</h2>
+      <div>
+        posted by{" "}
+        <UserReference username={post.data.author} publicKey={post.owner} />{" "}
+        {ago(post.timestamp)}
+        {board && (
+          <div>
+            in{" "}
+            <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
+          </div>
+        )}
+      </div>
       {post.data.content}
       {comments.map((comment, index) => (
         <p key={index}>

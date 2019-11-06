@@ -14,6 +14,9 @@ export default function PostSummary(props: { post: AxiomObject }) {
 
   let board = data.boards[props.post.data.board];
 
+  let canVote =
+    data.keyPair && data.keyPair.getPublicKey() !== props.post.owner;
+
   return (
     <div>
       <hr />
@@ -34,8 +37,12 @@ export default function PostSummary(props: { post: AxiomObject }) {
       </div>
       <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
       <div>score: {data.votes.getScore(props.post.id)}</div>
-      <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
-      <div onClick={() => data.app.downvote(props.post.id)}>downvote</div>
+      {canVote && (
+        <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
+      )}
+      {canVote && (
+        <div onClick={() => data.app.downvote(props.post.id)}>downvote</div>
+      )}
     </div>
   );
 }
