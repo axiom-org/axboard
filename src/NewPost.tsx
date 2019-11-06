@@ -1,7 +1,33 @@
 import React, { useState } from "react";
+import { AxiomObject } from "axiom-api";
 import { Link, Redirect } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
+
+function BoardDropDown(props: {
+  boards: AxiomObject[];
+  selected?: string;
+  onSelect: (id: string) => void;
+}) {
+  let onChange = (e: any) => {
+    let value = e.target.value || undefined;
+    props.onSelect(value);
+  };
+  return (
+    <div>
+      <select value={props.selected} onChange={onChange}>
+        <option value="" key="">
+          select a board
+        </option>
+        {props.boards.map(board => (
+          <option value={board.id} key={board.id}>
+            {board.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
 
 export default function NewPost(props: { board?: string }) {
   let data = useDataContext();
@@ -29,12 +55,22 @@ export default function NewPost(props: { board?: string }) {
     setID(post.id);
   };
 
+  let boards = Object.values(data.boards);
+  boards.sort((a, b) => a.name.localeCompare(b.name));
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <label>
           New post:
           <br />
+          {!props.board && (
+            <BoardDropDown
+              boards={boards}
+              selected={boardID}
+              onSelect={setBoardID}
+            />
+          )}
           <textarea
             value={content}
             onChange={e => setContent(e.target.value)}
