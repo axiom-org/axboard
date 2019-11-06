@@ -1,9 +1,8 @@
 {
   "name": "axboard",
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
-    "axiom-api": "file:../axiom/api",
+    "axiom-api": "^0.1.12",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.1.2",
