@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 
@@ -30,13 +30,20 @@ export default function NewPost(props: { board?: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        New post:
-        <br />
-        <textarea value={content} onChange={e => setContent(e.target.value)} />
-      </label>
-      <input type="submit" value="Submit" />
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          New post:
+          <br />
+          <textarea
+            value={content}
+            onChange={e => setContent(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+      <br />
+      <Link to="/newboard">create a new board</Link>
+    </div>
   );
 }
