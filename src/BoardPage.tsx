@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import NewPost from "./NewPost";
@@ -27,8 +28,7 @@ export default function BoardPage(props: { id: string; name?: string }) {
   return (
     <div>
       <h2>{"b/" + board.name}</h2>
-      <NewPost board={board.id} />
-      <hr />
+      <Link to={`/newpost/${board.id}`}>new post</Link>
       <PostList posts={postlist} />
     </div>
   );

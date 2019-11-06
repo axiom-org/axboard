@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { useDataContext } from "./DataContext";
 import InputForm from "./InputForm";
 
-export default function NewPost(props: { board: string }) {
+export default function NewPost(props: { board?: string }) {
   let data = useDataContext();
   let [id, setID] = useState("");
 
@@ -23,7 +23,7 @@ export default function NewPost(props: { board: string }) {
       onSubmit={async content => {
         let post = await data.app.createPost({
           author: author,
-          board: props.board,
+          board: props.board || "none",
           content: content
         });
         setID(post.id);

@@ -10,6 +10,7 @@ import HomePage from "./HomePage";
 import Loading from "./Loading";
 import LoginForm from "./LoginForm";
 import NewBoard from "./NewBoard";
+import NewPost from "./NewPost";
 import Page404 from "./Page404";
 import PostDetail from "./PostDetail";
 import UserDetail from "./UserDetail";
@@ -250,6 +251,13 @@ export default class App extends React.Component<AppProps, AppState> {
             </Route>
             <Route path="/newboard">
               <NewBoard />
+            </Route>
+            <Route
+              path="/newpost/:board"
+              render={({ match }) => <NewPost board={match.params.board} />}
+            />
+            <Route path="/newpost">
+              <NewPost />
             </Route>
             <Route path="/" exact>
               <HomePage />

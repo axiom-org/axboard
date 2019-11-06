@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import PostList from "./PostList";
@@ -15,6 +16,7 @@ export default function HomePage() {
   return (
     <div>
       <h2>Home Page</h2>
+      <Link to={`/newpost/`}>new post</Link>
       <PostList posts={postlist} />
     </div>
   );
