@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 
@@ -27,13 +27,17 @@ function LogInWidget() {
   );
 }
 
-export default function Header() {
+function Header(props: any) {
   return (
     <Navbar bg="dark" variant="dark" className="justify-content-between">
       <LinkContainer to="/">
         <Navbar.Brand href="#home">Axboard</Navbar.Brand>
       </LinkContainer>
-      <LogInWidget />
+      {props.location.pathname !== "/login" && (
+        <LogInWidget pathname={props.location.pathname} />
+      )}
     </Navbar>
   );
 }
+
+export default withRouter(Header);
