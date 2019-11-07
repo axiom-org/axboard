@@ -223,9 +223,6 @@ export default class App extends React.Component<AppProps, AppState> {
         }}
       >
         <Router>
-          <h1>
-            <Link to="/">Axboard</Link>
-          </h1>
           <Header />
           <Switch>
             <Route

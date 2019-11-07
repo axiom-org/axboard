@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 
-export default function Header() {
+function RightSide() {
   let data = useDataContext();
 
   if (!data.keyPair) {
@@ -13,6 +13,17 @@ export default function Header() {
     <div>
       <p>logged in as {data.keyPair.getPublicKey()}</p>
       <div onClick={() => data.app.logout()}>log out</div>
+    </div>
+  );
+}
+
+export default function Header() {
+  return (
+    <div>
+      <h1>
+        <Link to="/">Axboard</Link>
+      </h1>
+      <RightSide />
     </div>
   );
 }
