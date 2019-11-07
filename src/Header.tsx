@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { withRouter } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
+import { ReactComponent as Logo } from "./white-axe.svg";
 
 function LogInWidget() {
   let data = useDataContext();
@@ -34,9 +35,21 @@ function LogInWidget() {
 function Header(props: any) {
   return (
     <Navbar bg="dark" variant="dark" className="justify-content-between">
-      <LinkContainer to="/">
-        <Navbar.Brand href="#home">Axboard</Navbar.Brand>
-      </LinkContainer>
+      <Nav>
+        <LinkContainer to="/">
+          <Navbar.Brand>
+            <Logo
+              width="28"
+              height="28"
+              style={{
+                transform: "scaleX(-1)"
+              }}
+            />
+            <Navbar.Text style={{ width: "10px" }} />
+            Axboard
+          </Navbar.Brand>
+        </LinkContainer>
+      </Nav>
       {props.location.pathname !== "/login" && <LogInWidget />}
     </Navbar>
   );
