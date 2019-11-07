@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 
@@ -20,10 +21,13 @@ function LogInWidget() {
     );
   }
   return (
-    <div>
-      <p>logged in as {data.keyPair.getPublicKey()}</p>
-      <div onClick={() => data.app.logout()}>log out</div>
-    </div>
+    <Nav>
+      <NavDropdown title={"Logged in as " + data.username} id="logoutdropdown">
+        <NavDropdown.Item as="button" onClick={() => data.app.logout()}>
+          Log out
+        </NavDropdown.Item>
+      </NavDropdown>
+    </Nav>
   );
 }
 
@@ -33,9 +37,7 @@ function Header(props: any) {
       <LinkContainer to="/">
         <Navbar.Brand href="#home">Axboard</Navbar.Brand>
       </LinkContainer>
-      {props.location.pathname !== "/login" && (
-        <LogInWidget pathname={props.location.pathname} />
-      )}
+      {props.location.pathname !== "/login" && <LogInWidget />}
     </Navbar>
   );
 }
