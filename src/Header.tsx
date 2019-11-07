@@ -1,15 +1,23 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 
-function RightSide() {
+function LogInWidget() {
   let data = useDataContext();
 
   if (!data.keyPair) {
-    return <Link to={"/login"}>log in</Link>;
+    return (
+      <Nav>
+        <LinkContainer to="/login">
+          <Button active={false}>log in</Button>
+        </LinkContainer>
+      </Nav>
+    );
   }
   return (
     <div>
@@ -21,11 +29,11 @@ function RightSide() {
 
 export default function Header() {
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" className="justify-content-between">
       <LinkContainer to="/">
         <Navbar.Brand href="#home">Axboard</Navbar.Brand>
       </LinkContainer>
-      <RightSide />
+      <LogInWidget />
     </Navbar>
   );
 }
