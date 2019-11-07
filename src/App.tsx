@@ -1,6 +1,6 @@
 import React from "react";
 import Axiom, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 import "./App.css";
 import BoardPage from "./BoardPage";
