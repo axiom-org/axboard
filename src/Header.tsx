@@ -21,7 +21,7 @@ function RightSide() {
 
 export default function Header() {
   return (
-    <Navbar bg="dark">
+    <Navbar bg="dark" variant="dark">
       <LinkContainer to="/">
         <Navbar.Brand href="#home">Axboard</Navbar.Brand>
       </LinkContainer>
