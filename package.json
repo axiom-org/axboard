@@ -1,10 +1,16 @@
 {
   "name": "axboard",
   "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axiom-org/axboard.git"
+  },
   "dependencies": {
     "axiom-api": "^0.1.12",
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1"
