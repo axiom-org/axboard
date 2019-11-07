@@ -1,4 +1,6 @@
 import React from "react";
+import Navbar from "react-bootstrap/Navbar";
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
@@ -19,11 +21,11 @@ function RightSide() {
 
 export default function Header() {
   return (
-    <div>
-      <h1>
-        <Link to="/">Axboard</Link>
-      </h1>
+    <Navbar bg="dark">
+      <LinkContainer to="/">
+        <Navbar.Brand href="#home">Axboard</Navbar.Brand>
+      </LinkContainer>
       <RightSide />
-    </div>
+    </Navbar>
   );
 }
