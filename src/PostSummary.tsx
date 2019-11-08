@@ -21,8 +21,18 @@ export default function PostSummary(props: { post: AxiomObject }) {
 
   let board = data.boards[props.post.data.board];
 
-  let canVote =
-    data.keyPair && data.keyPair.getPublicKey() !== props.post.owner;
+  let currentVote = 0;
+  if (data.keyPair) {
+    let pk = data.keyPair.getPublicKey();
+    if (pk === props.post.owner) {
+      currentVote = 1;
+    } else {
+      let vote = data.votes.getVote(pk, props.post.id);
+      if (vote) {
+        currentVote = vote.data.score;
+      }
+    }
+  }
 
   return (
     <Card style={{ marginTop: "10px" }}>
@@ -30,7 +40,13 @@ export default function PostSummary(props: { post: AxiomObject }) {
         <Row>
           <Col xs="auto">
             <Card.Body>
-              <Button variant="outline-secondary">
+              <Button
+                variant="outline-secondary"
+                active={currentVote > 0}
+                onClick={() => {
+                  data.app.upvote(props.post.id);
+                }}
+              >
                 <ArrowUp width="20" height="20" />
               </Button>
               <Card.Text
@@ -42,7 +58,13 @@ export default function PostSummary(props: { post: AxiomObject }) {
               >
                 {data.votes.getScore(props.post.id)}
               </Card.Text>
-              <Button variant="outline-secondary">
+              <Button
+                variant="outline-secondary"
+                active={currentVote < 0}
+                onClick={() => {
+                  data.app.downvote(props.post.id);
+                }}
+              >
                 <ArrowUp
                   width="20"
                   height="20"
@@ -62,21 +84,15 @@ export default function PostSummary(props: { post: AxiomObject }) {
                 />{" "}
                 {ago(props.post.timestamp)}
                 {board && [
-                  <span> in </span>,
-                  <Link to={`/b/${board.name}/${board.id}`}>{`b/${
+                  <span key={1}> in </span>,
+                  <Link key={2} to={`/b/${board.name}/${board.id}`}>{`b/${
                     board.name
                   }`}</Link>
                 ]}
               </Card.Subtitle>
-              <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
-              {canVote && (
-                <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
-              )}
-              {canVote && (
-                <div onClick={() => data.app.downvote(props.post.id)}>
-                  downvote
-                </div>
-              )}
+              <Card.Text>
+                <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
+              </Card.Text>
             </Card.Body>
           </Col>
         </Row>
