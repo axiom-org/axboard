@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { AxiomObject } from "axiom-api";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,36 @@ import { useDataContext } from "./DataContext";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
 import { ReactComponent as ArrowUp } from "./arrow-up.svg";
+
+function VoteButton(props: {
+  direction: number;
+  currentVote: number;
+  postID: string;
+}) {
+  let data = useDataContext();
+  let button = useRef<any>(null);
+
+  let style = props.direction < 0 ? { transform: "scaleY(-1)" } : {};
+
+  return (
+    <Button
+      ref={button}
+      variant="outline-secondary"
+      active={props.direction * props.currentVote > 0}
+      onClick={(e: any) => {
+        e.preventDefault();
+        button.current.blur();
+        if (props.direction > 0) {
+          data.app.upvote(props.postID);
+        } else {
+          data.app.downvote(props.postID);
+        }
+      }}
+    >
+      <ArrowUp width="20" height="20" style={style} />
+    </Button>
+  );
+}
 
 export default function PostSummary(props: { post: AxiomObject }) {
   let data = useDataContext();
@@ -40,15 +70,11 @@ export default function PostSummary(props: { post: AxiomObject }) {
         <Row>
           <Col xs="auto">
             <Card.Body>
-              <Button
-                variant="outline-secondary"
-                active={currentVote > 0}
-                onClick={() => {
-                  data.app.upvote(props.post.id);
-                }}
-              >
-                <ArrowUp width="20" height="20" />
-              </Button>
+              <VoteButton
+                direction={1}
+                currentVote={currentVote}
+                postID={props.post.id}
+              />
               <Card.Text
                 style={{
                   marginTop: "0.5rem",
@@ -58,19 +84,11 @@ export default function PostSummary(props: { post: AxiomObject }) {
               >
                 {data.votes.getScore(props.post.id)}
               </Card.Text>
-              <Button
-                variant="outline-secondary"
-                active={currentVote < 0}
-                onClick={() => {
-                  data.app.downvote(props.post.id);
-                }}
-              >
-                <ArrowUp
-                  width="20"
-                  height="20"
-                  style={{ transform: "scaleY(-1)" }}
-                />
-              </Button>
+              <VoteButton
+                direction={-1}
+                currentVote={currentVote}
+                postID={props.post.id}
+              />
             </Card.Body>
           </Col>
           <Col>
