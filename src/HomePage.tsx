@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import { LinkContainer } from "react-router-bootstrap";
 
 import { useDataContext } from "./DataContext";
 import PostList from "./PostList";
@@ -15,8 +17,14 @@ export default function HomePage() {
 
   return (
     <div>
-      <h2>Home Page</h2>
-      <Link to={`/newpost/`}>new post</Link>
+      <Card>
+        <Card.Body>
+          <Card.Title>Home Page</Card.Title>
+          <LinkContainer to="/newpost/">
+            <Card.Link>New Post</Card.Link>
+          </LinkContainer>
+        </Card.Body>
+      </Card>
       <PostList posts={postlist} />
     </div>
   );
