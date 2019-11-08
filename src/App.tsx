@@ -1,6 +1,9 @@
 import React from "react";
 import Axiom, { AxiomObject, Channel, Database, KeyPair } from "axiom-api";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 import "./App.css";
 import BoardPage from "./BoardPage";
@@ -224,46 +227,57 @@ export default class App extends React.Component<AppProps, AppState> {
       >
         <Router>
           <Header />
-          <Switch>
-            <Route
-              path="/post/:id"
-              render={({ match }) => <PostDetail id={match.params.id} />}
-            />
-            <Route
-              path="/u/:name/:publicKey"
-              render={({ match }) => (
-                <UserDetail
-                  name={match.params.name}
-                  publicKey={match.params.publicKey}
-                />
-              )}
-            />
-            <Route
-              path="/b/:name/:id"
-              render={({ match }) => (
-                <BoardPage name={match.params.name} id={match.params.id} />
-              )}
-            />
-            <Route path="/login">
-              <LoginForm />
-            </Route>
-            <Route path="/newboard">
-              <NewBoard />
-            </Route>
-            <Route
-              path="/newpost/:board"
-              render={({ match }) => <NewPost board={match.params.board} />}
-            />
-            <Route path="/newpost">
-              <NewPost />
-            </Route>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route>
-              <Page404 />
-            </Route>
-          </Switch>
+          <Container>
+            <Row>
+              <Col>
+                <Switch>
+                  <Route
+                    path="/post/:id"
+                    render={({ match }) => <PostDetail id={match.params.id} />}
+                  />
+                  <Route
+                    path="/u/:name/:publicKey"
+                    render={({ match }) => (
+                      <UserDetail
+                        name={match.params.name}
+                        publicKey={match.params.publicKey}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/b/:name/:id"
+                    render={({ match }) => (
+                      <BoardPage
+                        name={match.params.name}
+                        id={match.params.id}
+                      />
+                    )}
+                  />
+                  <Route path="/login">
+                    <LoginForm />
+                  </Route>
+                  <Route path="/newboard">
+                    <NewBoard />
+                  </Route>
+                  <Route
+                    path="/newpost/:board"
+                    render={({ match }) => (
+                      <NewPost board={match.params.board} />
+                    )}
+                  />
+                  <Route path="/newpost">
+                    <NewPost />
+                  </Route>
+                  <Route path="/" exact>
+                    <HomePage />
+                  </Route>
+                  <Route>
+                    <Page404 />
+                  </Route>
+                </Switch>
+              </Col>
+            </Row>
+          </Container>
         </Router>
       </DataContext.Provider>
     );
