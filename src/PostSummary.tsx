@@ -1,6 +1,7 @@
 import React from "react";
 import { AxiomObject } from "axiom-api";
 import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
 
 import { useDataContext } from "./DataContext";
 import UserReference from "./UserReference";
@@ -18,31 +19,34 @@ export default function PostSummary(props: { post: AxiomObject }) {
     data.keyPair && data.keyPair.getPublicKey() !== props.post.owner;
 
   return (
-    <div>
-      <hr />
-      {props.post.data.content}
-      <div>
-        posted by{" "}
-        <UserReference
-          username={props.post.data.author}
-          publicKey={props.post.owner}
-        />{" "}
-        {ago(props.post.timestamp)}
-        {board && (
-          <div>
-            in{" "}
-            <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
-          </div>
+    <Card style={{ marginTop: "10px" }}>
+      <Card.Body>
+        {props.post.data.content}
+        <div>
+          posted by{" "}
+          <UserReference
+            username={props.post.data.author}
+            publicKey={props.post.owner}
+          />{" "}
+          {ago(props.post.timestamp)}
+          {board && (
+            <div>
+              in{" "}
+              <Link to={`/b/${board.name}/${board.id}`}>{`b/${
+                board.name
+              }`}</Link>
+            </div>
+          )}
+        </div>
+        <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
+        <div>score: {data.votes.getScore(props.post.id)}</div>
+        {canVote && (
+          <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
         )}
-      </div>
-      <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
-      <div>score: {data.votes.getScore(props.post.id)}</div>
-      {canVote && (
-        <div onClick={() => data.app.upvote(props.post.id)}>upvote</div>
-      )}
-      {canVote && (
-        <div onClick={() => data.app.downvote(props.post.id)}>downvote</div>
-      )}
-    </div>
+        {canVote && (
+          <div onClick={() => data.app.downvote(props.post.id)}>downvote</div>
+        )}
+      </Card.Body>
+    </Card>
   );
 }

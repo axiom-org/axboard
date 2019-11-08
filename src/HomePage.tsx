@@ -17,7 +17,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <Card>
+      <Card style={{ marginTop: "10px" }}>
         <Card.Body>
           <Card.Title>Home Page</Card.Title>
           <LinkContainer to="/newpost/">
