@@ -173,7 +173,10 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   async vote(args: { target: string; score: number }): Promise<AxiomObject> {
-    let vote = await this.votedb.create(args);
+    // Redundant, but helps data-layer protocols not cache duplicate votes
+    let name = args.target.slice(0, 10) + "_" + args.target.slice(-10);
+
+    let vote = await this.votedb.create(args, name);
     this.state.votes.addVote(vote);
     this.forceUpdate();
     return vote;
