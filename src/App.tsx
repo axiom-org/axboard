@@ -33,6 +33,9 @@ type AppState = {
   loading: boolean;
 };
 
+// For debugging
+declare var window: any;
+
 export default class App extends React.Component<AppProps, AppState> {
   channel: Channel;
   postdb: Database;
@@ -42,6 +45,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
   constructor(props: AppProps) {
     super(props);
+    window.app = this;
 
     let axiom = new Axiom({ network: "prod", verbose: true });
     this.channel = axiom.channel("Axboard");
@@ -53,7 +57,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     let ageFilter = (obj: AxiomObject): boolean => {
       let age = daysAgo(obj.timestamp);
-      if (age > 2 || age < -0.05) {
+      if (age > 7 || age < -0.05) {
         return false;
       }
       return true;
