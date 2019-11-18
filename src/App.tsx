@@ -194,6 +194,10 @@ export default class App extends React.Component<AppProps, AppState> {
     return await this.vote({ target, score: -1 });
   }
 
+  async unvote(target: string): Promise<AxiomObject> {
+    return await this.vote({ target, score: 0 });
+  }
+
   login(username: string, passphrase: string) {
     let regex = /^[A-Za-z0-9_]+$/;
     if (!regex.test(username)) {

@@ -22,12 +22,13 @@ function VoteButton(props: {
   let button = useRef<any>(null);
 
   let style = props.direction < 0 ? { transform: "scaleY(-1)" } : {};
+  let active = props.direction * props.currentVote > 0;
 
   return (
     <Button
       ref={button}
       variant="outline-secondary"
-      active={props.direction * props.currentVote > 0}
+      active={active}
       onClick={(e: any) => {
         e.preventDefault();
         button.current.blur();
@@ -35,7 +36,9 @@ function VoteButton(props: {
           window.location.assign("/#/login");
           return;
         }
-        if (props.direction > 0) {
+        if (active) {
+          data.app.unvote(props.postID);
+        } else if (props.direction > 0) {
           data.app.upvote(props.postID);
         } else {
           data.app.downvote(props.postID);
