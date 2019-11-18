@@ -31,6 +31,10 @@ function VoteButton(props: {
       onClick={(e: any) => {
         e.preventDefault();
         button.current.blur();
+        if (!data.keyPair) {
+          window.location.assign("/#/login");
+          return;
+        }
         if (props.direction > 0) {
           data.app.upvote(props.postID);
         } else {
