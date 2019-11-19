@@ -52,7 +52,7 @@ export default function NewPost(props: { board?: string }) {
     if (!boardID) {
       return;
     }
-    if (content.trim().length == 0) {
+    if (content.trim().length === 0) {
       return;
     }
     console.log(`posting ${content.length} bytes to ${boardID}`);
