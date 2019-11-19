@@ -88,8 +88,7 @@ export default function NewPost(props: { board?: string }) {
         <Form.Group>
           <Form.Label>Title</Form.Label>
           <Form.Control
-            as="textarea"
-            rows="3"
+            type="text"
             value={title}
             onChange={(e: any) => setTitle(e.target.value)}
           />
@@ -105,7 +104,8 @@ export default function NewPost(props: { board?: string }) {
         <Form.Group>
           <Form.Label>Summary</Form.Label>
           <Form.Control
-            type="text"
+            as="textarea"
+            rows="3"
             value={summary}
             onChange={(e: any) => setSummary(e.target.value)}
           />
