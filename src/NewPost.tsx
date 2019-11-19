@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { AxiomObject } from "axiom-api";
 import { Link, Redirect } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 import { useDataContext } from "./DataContext";
 
@@ -14,18 +16,19 @@ function BoardDropDown(props: {
     props.onSelect(value);
   };
   return (
-    <div>
-      <select value={props.selected} onChange={onChange}>
+    <Form.Group>
+      <Form.Label>Board</Form.Label>
+      <Form.Control as="select" selected={props.selected} onChange={onChange}>
         <option value="" key="">
-          select a board
+          select a board to post to
         </option>
         {props.boards.map(board => (
           <option value={board.id} key={board.id}>
             {board.name}
           </option>
         ))}
-      </select>
-    </div>
+      </Form.Control>
+    </Form.Group>
   );
 }
 
@@ -46,10 +49,16 @@ export default function NewPost(props: { board?: string }) {
 
   let handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!boardID) {
+      return;
+    }
+    if (content.trim().length == 0) {
+      return;
+    }
     console.log(`posting ${content.length} bytes to ${boardID}`);
     let post = await data.app.createPost({
       author: author,
-      board: boardID || "XXX",
+      board: boardID,
       content: content
     });
     setID(post.id);
@@ -60,24 +69,30 @@ export default function NewPost(props: { board?: string }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          New post:
-          <br />
-          {!props.board && (
-            <BoardDropDown
-              boards={boards}
-              selected={boardID}
-              onSelect={setBoardID}
-            />
-          )}
-          <textarea
-            value={content}
-            onChange={e => setContent(e.target.value)}
+      <br />
+      <h2>New Post</h2>
+      <br />
+      <Form onSubmit={handleSubmit}>
+        {!props.board && (
+          <BoardDropDown
+            boards={boards}
+            selected={boardID}
+            onSelect={setBoardID}
           />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+        )}
+        <Form.Group>
+          <Form.Label>Content</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows="3"
+            value={content}
+            onChange={(e: any) => setContent(e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit" value="Submit">
+          Submit
+        </Button>
+      </Form>
       <br />
       <Link to="/newboard">create a new board</Link>
     </div>
