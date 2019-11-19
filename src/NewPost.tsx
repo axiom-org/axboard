@@ -52,17 +52,16 @@ export default function NewPost(props: { board?: string }) {
 
   let handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (!boardID) {
-      return;
-    }
     let postData = {
       author,
-      board: boardID,
+      board: boardID || "",
       summary,
       title,
-      url
+      url: url || undefined
     };
-    if (!validatePost(postData)) {
+    let error = validatePost(postData);
+    if (error) {
+      alert(error);
       return;
     }
     console.log(`posting ${title} to ${boardID}`);
@@ -98,8 +97,7 @@ export default function NewPost(props: { board?: string }) {
         <Form.Group>
           <Form.Label>URL</Form.Label>
           <Form.Control
-            as="textarea"
-            rows="3"
+            type="text"
             value={url}
             onChange={(e: any) => setURL(e.target.value)}
           />
@@ -107,8 +105,7 @@ export default function NewPost(props: { board?: string }) {
         <Form.Group>
           <Form.Label>Summary</Form.Label>
           <Form.Control
-            as="textarea"
-            rows="3"
+            type="text"
             value={summary}
             onChange={(e: any) => setSummary(e.target.value)}
           />
