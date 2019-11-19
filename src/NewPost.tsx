@@ -35,7 +35,9 @@ function BoardDropDown(props: {
 export default function NewPost(props: { board?: string }) {
   let data = useDataContext();
   let [id, setID] = useState("");
-  let [content, setContent] = useState("");
+  let [title, setTitle] = useState("");
+  let [summary, setSummary] = useState("");
+  let [url, setURL] = useState("");
   let [boardID, setBoardID] = useState(props.board);
 
   if (id.length > 0) {
@@ -52,14 +54,16 @@ export default function NewPost(props: { board?: string }) {
     if (!boardID) {
       return;
     }
-    if (content.trim().length === 0) {
+    if (summary.trim().length === 0 || title.trim().length === 0) {
       return;
     }
-    console.log(`posting ${content.length} bytes to ${boardID}`);
+    console.log(`posting ${title} to ${boardID}`);
     let post = await data.app.createPost({
-      author: author,
+      author,
       board: boardID,
-      content: content
+      summary,
+      title,
+      url
     });
     setID(post.id);
   };
@@ -81,12 +85,30 @@ export default function NewPost(props: { board?: string }) {
           />
         )}
         <Form.Group>
-          <Form.Label>Content</Form.Label>
+          <Form.Label>Title</Form.Label>
           <Form.Control
             as="textarea"
             rows="3"
-            value={content}
-            onChange={(e: any) => setContent(e.target.value)}
+            value={title}
+            onChange={(e: any) => setTitle(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>URL</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows="3"
+            value={url}
+            onChange={(e: any) => setURL(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Summary</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows="3"
+            value={summary}
+            onChange={(e: any) => setSummary(e.target.value)}
           />
         </Form.Group>
         <Button variant="primary" type="submit" value="Submit">

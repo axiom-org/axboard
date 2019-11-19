@@ -133,7 +133,9 @@ export default class App extends React.Component<AppProps, AppState> {
   async createPost(args: {
     author: string;
     board: string;
-    content: string;
+    summary: string;
+    title: string;
+    url: string;
   }): Promise<AxiomObject> {
     let post = await this.postdb.create(args);
     this.setState(state => {
