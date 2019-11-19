@@ -38,10 +38,10 @@ export default function NewPost(props: { board?: string }) {
   if (id.length > 0) {
     return <Redirect to={`/post/${id}`} />;
   }
-
   if (!data.username) {
-    return <div>log in to post</div>;
+    return <Redirect to={"/login"} />;
   }
+
   let author: string = data.username;
 
   let handleSubmit = async (e: any) => {
