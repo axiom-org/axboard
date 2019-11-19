@@ -21,7 +21,7 @@ function BoardDropDown(props: {
       <Form.Label>Board</Form.Label>
       <Form.Control as="select" selected={props.selected} onChange={onChange}>
         <option value="" key="">
-          select a board to post to
+          Select a board to post to.
         </option>
         {props.boards.map(board => (
           <option value={board.id} key={board.id}>
@@ -90,6 +90,7 @@ export default function NewPost(props: { board?: string }) {
           <Form.Control
             type="text"
             value={title}
+            placeholder="The title of the page you're linking to, or a brief description of your post."
             onChange={(e: any) => setTitle(e.target.value)}
           />
         </Form.Group>
@@ -98,6 +99,7 @@ export default function NewPost(props: { board?: string }) {
           <Form.Control
             type="text"
             value={url}
+            placeholder="Optional."
             onChange={(e: any) => setURL(e.target.value)}
           />
         </Form.Group>
@@ -107,6 +109,7 @@ export default function NewPost(props: { board?: string }) {
             as="textarea"
             rows="3"
             value={summary}
+            placeholder="Describe why this link is interesting, ask a question, or make a brief comment."
             onChange={(e: any) => setSummary(e.target.value)}
           />
         </Form.Group>
