@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { useDataContext } from "./DataContext";
+import { validatePost } from "./Validation";
 
 function BoardDropDown(props: {
   boards: AxiomObject[];
@@ -54,17 +55,18 @@ export default function NewPost(props: { board?: string }) {
     if (!boardID) {
       return;
     }
-    if (summary.trim().length === 0 || title.trim().length === 0) {
-      return;
-    }
-    console.log(`posting ${title} to ${boardID}`);
-    let post = await data.app.createPost({
+    let postData = {
       author,
       board: boardID,
       summary,
       title,
       url
-    });
+    };
+    if (!validatePost(postData)) {
+      return;
+    }
+    console.log(`posting ${title} to ${boardID}`);
+    let post = await data.app.createPost(postData);
     setID(post.id);
   };
 
