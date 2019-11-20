@@ -6,16 +6,16 @@ export function validatePost(data: {
   title: string;
   url?: string;
 }): string | null {
-  if (data.author.length === 0) {
+  if (!data.author) {
     return "Every post must have an author.";
   }
-  if (data.board.length === 0) {
+  if (!data.board) {
     return "You must select a board to post to.";
   }
-  if (data.summary.trim().length === 0) {
+  if (!data.summary || data.summary.trim().length === 0) {
     return "Every post must have a summary.";
   }
-  if (data.title.trim().length === 0) {
+  if (!data.title || data.title.trim().length === 0) {
     return "Every post must have a title.";
   }
   if (data.url && !data.url.startsWith("http")) {

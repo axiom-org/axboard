@@ -18,6 +18,7 @@ import Page404 from "./Page404";
 import PostDetail from "./PostDetail";
 import UserDetail from "./UserDetail";
 import { daysAgo } from "./Util";
+import { validatePost } from "./Validation";
 import VoteSet from "./VoteSet";
 
 type ObjectMap = { [id: string]: AxiomObject };
@@ -63,7 +64,9 @@ export default class App extends React.Component<AppProps, AppState> {
       return true;
     };
 
-    this.postdb.useFilter(ageFilter);
+    this.postdb.useFilter(
+      (post: AxiomObject) => ageFilter(post) && !validatePost(post.data)
+    );
     this.commentdb.useFilter(ageFilter);
     this.votedb.useFilter(ageFilter);
 
