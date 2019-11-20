@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
@@ -24,12 +25,21 @@ export default function BoardPage(props: { id: string; name?: string }) {
       postlist.push(post);
     }
   }
-  postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+  data.votes.sort(postlist);
+
+  console.log("XXX", board.data);
 
   return (
     <div>
-      <h2>{"b/" + board.name}</h2>
-      <Link to={`/newpost/${board.id}`}>new post</Link>
+      <Card style={{ marginTop: "10px" }}>
+        <Card.Body>
+          <Card.Title>{"b/" + board.name}</Card.Title>
+          <Card.Text>{board.data.description}</Card.Text>
+          <LinkContainer to={`/newpost/${board.id}`}>
+            <Card.Link>New post</Card.Link>
+          </LinkContainer>
+        </Card.Body>
+      </Card>
       <PostList posts={postlist} />
     </div>
   );
