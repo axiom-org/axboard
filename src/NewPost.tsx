@@ -38,6 +38,7 @@ export default function NewPost(props: { board?: string }) {
   let [id, setID] = useState("");
   let [title, setTitle] = useState("");
   let [summary, setSummary] = useState("");
+
   let [url, setURL] = useState("");
   let [boardID, setBoardID] = useState(props.board);
 
@@ -69,7 +70,10 @@ export default function NewPost(props: { board?: string }) {
     setID(post.id);
   };
 
-  let boards = Object.values(data.boards);
+  let threshold = new Date().getTime() - 1000 * 60 * 60 * 24 * 7;
+  let boards = Object.values(data.boards).filter(
+    b => data.postsForBoard[b.id] || b.timestamp.getTime() > threshold
+  );
   boards.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
