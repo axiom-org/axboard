@@ -17,7 +17,7 @@ import { ReactComponent as ArrowUp } from "./arrow-up.svg";
 function VoteButton(props: {
   direction: number;
   currentVote: number;
-  postID: string;
+  target: string;
 }) {
   let data = useDataContext();
   let button = useRef<any>(null);
@@ -38,11 +38,11 @@ function VoteButton(props: {
           return;
         }
         if (active) {
-          data.app.unvote(props.postID);
+          data.app.unvote(props.target);
         } else if (props.direction > 0) {
-          data.app.upvote(props.postID);
+          data.app.upvote(props.target);
         } else {
-          data.app.downvote(props.postID);
+          data.app.downvote(props.target);
         }
       }}
     >
@@ -104,7 +104,7 @@ export default function PostSummary(props: {
               <VoteButton
                 direction={1}
                 currentVote={currentVote}
-                postID={props.post.id}
+                target={props.post.id}
               />
               <Card.Text
                 style={{
@@ -118,7 +118,7 @@ export default function PostSummary(props: {
               <VoteButton
                 direction={-1}
                 currentVote={currentVote}
-                postID={props.post.id}
+                target={props.post.id}
               />
             </Card.Body>
           </Col>
