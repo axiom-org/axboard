@@ -17,13 +17,7 @@ export default function BoardPage(props: { id: string; name?: string }) {
     return <ErrorPage text="This link is no longer valid." />;
   }
 
-  let postlist = [];
-  for (let id in data.posts) {
-    let post = data.posts[id];
-    if (post.data.board === props.id) {
-      postlist.push(post);
-    }
-  }
+  let postlist = Object.values(data.postsForBoard[props.id] || {});
   data.votes.sort(postlist);
 
   return (
