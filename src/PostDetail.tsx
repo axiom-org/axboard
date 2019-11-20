@@ -1,6 +1,5 @@
 import React from "react";
 import { AxiomObject } from "axiom-api";
-import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
 import { useDataContext } from "./DataContext";
@@ -41,8 +40,6 @@ export default function PostDetail(props: { id: string }) {
     comments.push(cmap[key]);
   }
   comments.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-
-  let board = data.boards[post.data.board];
 
   return (
     <div>
