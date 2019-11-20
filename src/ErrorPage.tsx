@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
 
 export default function ErrorPage(props: { text: string }) {
   return (

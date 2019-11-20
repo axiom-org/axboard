@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
