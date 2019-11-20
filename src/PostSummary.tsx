@@ -100,7 +100,7 @@ export default function PostSummary(props: { post: AxiomObject }) {
           </Col>
           <Col>
             <Card.Body>
-              <Card.Title>{props.post.data.content}</Card.Title>
+              <Card.Title>{props.post.data.title}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 posted by{" "}
                 <UserReference
