@@ -1,4 +1,5 @@
 import React from "react";
+import Card from "react-bootstrap/Card";
 
 import { useDataContext } from "./DataContext";
 import PostList from "./PostList";
@@ -17,10 +18,27 @@ export default function UserDetail(props: { name: string; publicKey: string }) {
 
   return (
     <div>
-      <h2>
-        posts from {props.name} ({props.publicKey}
-        ):
-      </h2>
+      <Card style={{ marginTop: "10px" }}>
+        <Card.Body>
+          <Card.Title>
+            {"username: "}
+            {props.name}
+          </Card.Title>
+          <Card.Text>
+            {"public key: "}
+            {props.publicKey}
+          </Card.Text>
+          <Card.Text>
+            {"karma: "}
+            {data.votes.getKarma(props.publicKey)}
+          </Card.Text>
+          <Card.Text>
+            {postlist.length}
+            {" post"}
+            {postlist.length === 1 ? "" : "s"}
+          </Card.Text>
+        </Card.Body>
+      </Card>
       <PostList posts={postlist} />
     </div>
   );
