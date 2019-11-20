@@ -48,6 +48,14 @@ export default class VoteSet {
     return this.votes[key] || null;
   }
 
+  sort(list: AxiomObject[]) {
+    list.sort(
+      (a, b) =>
+        this.getScore(b.id) - this.getScore(a.id) ||
+        b.timestamp.getTime() - a.timestamp.getTime()
+    );
+  }
+
   addVote(vote: AxiomObject) {
     if (Math.abs(vote.data.score) > 1 || !vote.data.target) {
       return;

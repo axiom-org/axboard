@@ -12,7 +12,8 @@ export default function HomePage() {
     let post = data.posts[id];
     postlist.push(post);
   }
-  postlist.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+
+  data.votes.sort(postlist);
 
   return (
     <div>
