@@ -38,6 +38,7 @@ type AppState = {
 declare var window: any;
 
 export default class App extends React.Component<AppProps, AppState> {
+  axiom: Axiom;
   channel: Channel;
   postdb: Database;
   commentdb: Database;
@@ -48,7 +49,7 @@ export default class App extends React.Component<AppProps, AppState> {
     super(props);
     window.app = this;
 
-    let axiom = new Axiom({ network: "prod", verbose: true });
+    this.axiom = new Axiom({ network: "prod", verbose: true });
     this.channel = axiom.channel("Axboard");
 
     this.postdb = this.channel.database("Posts");
@@ -91,6 +92,28 @@ export default class App extends React.Component<AppProps, AppState> {
         this.login(username, passphrase);
       }
     }, 0);
+  }
+
+  // From 0 to 1
+  getProgress(): number {
+    let progress = 0;
+    let members = this.axiom.channelMembers["Axboard"];
+    if (members && members.getMembers().length >= 2) {
+      progress += 1;
+    }
+    if (!this.postdb.onLoad) {
+      progress += 1;
+    }
+    if (!this.commentdb.onLoad) {
+      progress += 1;
+    }
+    if (!this.votedb.onLoad) {
+      progress += 1;
+    }
+    if (!this.boarddb.onLoad) {
+      progress += 1;
+    }
+    return progress / 5.0;
   }
 
   async loadData(): Promise<void> {
