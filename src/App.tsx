@@ -258,11 +258,56 @@ export default class App extends React.Component<AppProps, AppState> {
     window.localStorage.removeItem("passphrase");
   }
 
-  render() {
+  renderContent() {
     if (this.state.loading) {
-      return <Loading />;
+      return <Loading progress={this.state.progress} />;
     }
 
+    return (
+      <Switch>
+        <Route
+          path="/post/:id"
+          render={({ match }) => <PostDetail id={match.params.id} />}
+        />
+        <Route
+          path="/u/:name/:publicKey"
+          render={({ match }) => (
+            <UserDetail
+              name={match.params.name}
+              publicKey={match.params.publicKey}
+            />
+          )}
+        />
+        <Route
+          path="/b/:name/:id"
+          render={({ match }) => (
+            <BoardPage name={match.params.name} id={match.params.id} />
+          )}
+        />
+        <Route path="/login">
+          <LoginForm />
+        </Route>
+        <Route path="/newboard">
+          <NewBoard />
+        </Route>
+        <Route
+          path="/newpost/:board"
+          render={({ match }) => <NewPost board={match.params.board} />}
+        />
+        <Route path="/newpost">
+          <NewPost />
+        </Route>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route>
+          <Page404 />
+        </Route>
+      </Switch>
+    );
+  }
+
+  render() {
     let postsForBoard: {
       [boardID: string]: { [postID: string]: AxiomObject };
     } = {};
@@ -291,53 +336,7 @@ export default class App extends React.Component<AppProps, AppState> {
           <Header />
           <Container>
             <Row>
-              <Col>
-                <Switch>
-                  <Route
-                    path="/post/:id"
-                    render={({ match }) => <PostDetail id={match.params.id} />}
-                  />
-                  <Route
-                    path="/u/:name/:publicKey"
-                    render={({ match }) => (
-                      <UserDetail
-                        name={match.params.name}
-                        publicKey={match.params.publicKey}
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/b/:name/:id"
-                    render={({ match }) => (
-                      <BoardPage
-                        name={match.params.name}
-                        id={match.params.id}
-                      />
-                    )}
-                  />
-                  <Route path="/login">
-                    <LoginForm />
-                  </Route>
-                  <Route path="/newboard">
-                    <NewBoard />
-                  </Route>
-                  <Route
-                    path="/newpost/:board"
-                    render={({ match }) => (
-                      <NewPost board={match.params.board} />
-                    )}
-                  />
-                  <Route path="/newpost">
-                    <NewPost />
-                  </Route>
-                  <Route path="/" exact>
-                    <HomePage />
-                  </Route>
-                  <Route>
-                    <Page404 />
-                  </Route>
-                </Switch>
-              </Col>
+              <Col>{this.renderContent()}</Col>
             </Row>
           </Container>
         </Router>
