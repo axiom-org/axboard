@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
+import ErrorPage from "./ErrorPage";
 import ReplyForm from "./ReplyForm";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
@@ -10,7 +11,7 @@ export default function PostDetail(props: { id: string }) {
   let data = useDataContext();
   let post = data.posts[props.id];
   if (!post) {
-    return <div>post not found</div>;
+    return <ErrorPage text="The information for this post was not found." />;
   }
   let cmap = data.comments[props.id];
 
