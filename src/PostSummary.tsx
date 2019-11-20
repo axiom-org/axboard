@@ -71,7 +71,10 @@ function CardTitle(props: { post: AxiomObject }) {
   );
 }
 
-export default function PostSummary(props: { post: AxiomObject }) {
+export default function PostSummary(props: {
+  post: AxiomObject;
+  linkToComments: boolean;
+}) {
   let data = useDataContext();
   let comments = data.comments[props.post.id];
   let numComments = comments ? Object.keys(comments).length : 0;
@@ -137,9 +140,11 @@ export default function PostSummary(props: { post: AxiomObject }) {
                 ]}
               </Card.Subtitle>
               <Card.Text>{props.post.data.summary}</Card.Text>
-              <LinkContainer to={`/post/${props.post.id}`}>
-                <Card.Link>{commentsPhrase}</Card.Link>
-              </LinkContainer>
+              {props.linkToComments && (
+                <LinkContainer to={`/post/${props.post.id}`}>
+                  <Card.Link>{commentsPhrase}</Card.Link>
+                </LinkContainer>
+              )}
             </Card.Body>
           </Col>
         </Row>

@@ -17,7 +17,7 @@ export default function PostList(props: { posts: AxiomObject[] }) {
   return (
     <div>
       {props.posts.map((post, index) => {
-        return <PostSummary key={index} post={post} />;
+        return <PostSummary key={index} post={post} linkToComments />;
       })}
     </div>
   );
