@@ -27,8 +27,6 @@ export default function BoardPage(props: { id: string; name?: string }) {
   }
   data.votes.sort(postlist);
 
-  console.log("XXX", board.data);
-
   return (
     <div>
       <Card style={{ marginTop: "10px" }}>
