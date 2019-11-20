@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-
+import { AxiomObject } from "axiom-api";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -47,11 +47,23 @@ function VoteButton(props: {
 }
 
 export default function VoteCard(props: {
-  currentVote: number;
-  target: string;
+  target: AxiomObject;
   children: any;
 }) {
   let data = useDataContext();
+  let currentVote = 0;
+  if (data.keyPair) {
+    let pk = data.keyPair.getPublicKey();
+    if (pk === props.target.owner) {
+      currentVote = 1;
+    } else {
+      let vote = data.votes.getVote(pk, props.target.id);
+      if (vote) {
+        currentVote = vote.data.score;
+      }
+    }
+  }
+
   return (
     <Card style={{ marginTop: "10px" }}>
       <Container>
@@ -60,8 +72,8 @@ export default function VoteCard(props: {
             <Card.Body>
               <VoteButton
                 direction={1}
-                currentVote={props.currentVote}
-                target={props.target}
+                currentVote={currentVote}
+                target={props.target.id}
               />
               <Card.Text
                 style={{
@@ -70,12 +82,12 @@ export default function VoteCard(props: {
                   textAlign: "center"
                 }}
               >
-                {data.votes.getScore(props.target)}
+                {data.votes.getScore(props.target.id)}
               </Card.Text>
               <VoteButton
                 direction={-1}
-                currentVote={props.currentVote}
-                target={props.target}
+                currentVote={currentVote}
+                target={props.target.id}
               />
             </Card.Body>
           </Col>

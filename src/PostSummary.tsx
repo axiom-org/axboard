@@ -40,21 +40,8 @@ export default function PostSummary(props: {
 
   let board = data.boards[props.post.data.board];
 
-  let currentVote = 0;
-  if (data.keyPair) {
-    let pk = data.keyPair.getPublicKey();
-    if (pk === props.post.owner) {
-      currentVote = 1;
-    } else {
-      let vote = data.votes.getVote(pk, props.post.id);
-      if (vote) {
-        currentVote = vote.data.score;
-      }
-    }
-  }
-
   return (
-    <VoteCard currentVote={currentVote} target={props.post.id}>
+    <VoteCard target={props.post}>
       <CardTitle post={props.post} />
       <Card.Subtitle className="mb-2 text-muted">
         posted by{" "}
