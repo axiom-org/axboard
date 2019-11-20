@@ -14,12 +14,13 @@ function CommentCard(props: { comment: AxiomObject }) {
   return (
     <VoteCard target={props.comment}>
       <Card.Subtitle className="mb-2 text-muted">
-        posted by{" "}
-        <UserReference
-          username={props.comment.data.author}
-          publicKey={props.comment.owner}
-        />{" "}
-        {ago(props.comment.timestamp)}
+        <small>
+          <UserReference
+            username={props.comment.data.author}
+            publicKey={props.comment.owner}
+          />{" "}
+          - {ago(props.comment.timestamp)}
+        </small>
       </Card.Subtitle>
       <Card.Text>{props.comment.data.content}</Card.Text>
     </VoteCard>
