@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { AxiomObject } from "axiom-api";
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
@@ -115,9 +116,9 @@ export default function PostSummary(props: { post: AxiomObject }) {
                   }`}</Link>
                 ]}
               </Card.Subtitle>
-              <Card.Text>
-                <Link to={`/post/${props.post.id}`}>{commentsPhrase}</Link>
-              </Card.Text>
+              <LinkContainer to={`/post/${props.post.id}`}>
+                <Card.Link>{commentsPhrase}</Card.Link>
+              </LinkContainer>
             </Card.Body>
           </Col>
         </Row>
