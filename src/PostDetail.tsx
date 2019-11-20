@@ -2,10 +2,10 @@ import React from "react";
 import { AxiomObject } from "axiom-api";
 import Card from "react-bootstrap/Card";
 
+import CommentForm from "./CommentForm";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
 import PostSummary from "./PostSummary";
-import ReplyForm from "./ReplyForm";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
 import VoteCard from "./VoteCard";
@@ -44,10 +44,10 @@ export default function PostDetail(props: { id: string }) {
   return (
     <div>
       <PostSummary post={post} linkToComments={false} />
+      <CommentForm parent={post} />
       {comments.map((comment, index) => (
         <CommentCard key={index} comment={comment} />
       ))}
-      <ReplyForm post={post} />
     </div>
   );
 }
