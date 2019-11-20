@@ -32,6 +32,7 @@ type AppState = {
   keyPair?: KeyPair;
   username?: string;
   loading: boolean;
+  progress: number;
 };
 
 // For debugging
@@ -50,7 +51,7 @@ export default class App extends React.Component<AppProps, AppState> {
     window.app = this;
 
     this.axiom = new Axiom({ network: "prod", verbose: true });
-    this.channel = axiom.channel("Axboard");
+    this.channel = this.axiom.channel("Axboard");
 
     this.postdb = this.channel.database("Posts");
     this.commentdb = this.channel.database("Comments");
@@ -78,7 +79,8 @@ export default class App extends React.Component<AppProps, AppState> {
       boards: {},
       keyPair: undefined,
       username: undefined,
-      loading: true
+      loading: true,
+      progress: 0
     };
 
     // Async but we can't wait for a response in this constructor
@@ -91,7 +93,16 @@ export default class App extends React.Component<AppProps, AppState> {
       if (username && passphrase) {
         this.login(username, passphrase);
       }
+      this.checkProgress();
     }, 0);
+  }
+
+  checkProgress() {
+    let progress = this.getProgress();
+    this.setState({ progress });
+    if (progress < 0.9999) {
+      setTimeout(() => this.checkProgress(), 30);
+    }
   }
 
   // From 0 to 1
