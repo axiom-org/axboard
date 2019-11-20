@@ -10,7 +10,7 @@ export default function NewBoard() {
 
   let data = useDataContext();
   if (!data.username) {
-    return <div>You must log in to create a new board.</div>;
+    return <Redirect to="/login" />;
   }
 
   if (redirect !== "") {
