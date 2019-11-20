@@ -71,6 +71,48 @@ function CardTitle(props: { post: AxiomObject }) {
   );
 }
 
+function VoteCard(props: {
+  currentVote: number;
+  target: string;
+  children: any;
+}) {
+  let data = useDataContext();
+  return (
+    <Card style={{ marginTop: "10px" }}>
+      <Container>
+        <Row>
+          <Col xs="auto">
+            <Card.Body>
+              <VoteButton
+                direction={1}
+                currentVote={props.currentVote}
+                target={props.target}
+              />
+              <Card.Text
+                style={{
+                  marginTop: "0.5rem",
+                  marginBottom: "0.5rem",
+                  textAlign: "center"
+                }}
+              >
+                {data.votes.getScore(props.target)}
+              </Card.Text>
+              <VoteButton
+                direction={-1}
+                currentVote={props.currentVote}
+                target={props.target}
+              />
+            </Card.Body>
+          </Col>
+          <Col>
+            <Card.Body>{props.children}</Card.Body>
+          </Col>
+        </Row>
+      </Container>
+    </Card>
+  );
+}
+
 export default function PostSummary(props: {
   post: AxiomObject;
   linkToComments: boolean;
