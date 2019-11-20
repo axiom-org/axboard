@@ -51,6 +51,26 @@ function VoteButton(props: {
   );
 }
 
+function CardTitle(props: { post: AxiomObject }) {
+  let style = { color: "black" };
+  if (props.post.data.url) {
+    return (
+      <Card.Title>
+        <a style={style} href={props.post.data.url}>
+          {props.post.data.title}
+        </a>
+      </Card.Title>
+    );
+  }
+  return (
+    <Card.Title>
+      <Link style={style} to={`/post/${props.post.id}`}>
+        {props.post.data.title}
+      </Link>
+    </Card.Title>
+  );
+}
+
 export default function PostSummary(props: { post: AxiomObject }) {
   let data = useDataContext();
   let comments = data.comments[props.post.id];
@@ -101,7 +121,7 @@ export default function PostSummary(props: { post: AxiomObject }) {
           </Col>
           <Col>
             <Card.Body>
-              <Card.Title>{props.post.data.title}</Card.Title>
+              <CardTitle post={props.post} />
               <Card.Subtitle className="mb-2 text-muted">
                 posted by{" "}
                 <UserReference
@@ -116,6 +136,7 @@ export default function PostSummary(props: { post: AxiomObject }) {
                   }`}</Link>
                 ]}
               </Card.Subtitle>
+              <Card.Text>{props.post.data.summary}</Card.Text>
               <LinkContainer to={`/post/${props.post.id}`}>
                 <Card.Link>{commentsPhrase}</Card.Link>
               </LinkContainer>
