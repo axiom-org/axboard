@@ -5,12 +5,13 @@ import App from "./App";
 import VoteSet from "./VoteSet";
 
 type ObjectMap = { [id: string]: AxiomObject };
-type CommentMap = { [parent: string]: ObjectMap };
+type MapMap = { [parent: string]: ObjectMap };
 
 type DataContextType = {
   app: App;
   posts: ObjectMap;
-  comments: CommentMap;
+  postsForBoard: MapMap;
+  comments: MapMap;
   votes: VoteSet;
   boards: ObjectMap;
   username?: string;

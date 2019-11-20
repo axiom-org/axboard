@@ -229,6 +229,17 @@ export default class App extends React.Component<AppProps, AppState> {
       return <Loading />;
     }
 
+    let postsForBoard: {
+      [boardID: string]: { [postID: string]: AxiomObject };
+    } = {};
+    for (let postID in this.state.posts) {
+      let post = this.state.posts[postID];
+      if (!postsForBoard[post.data.board]) {
+        postsForBoard[post.data.board] = {};
+      }
+      postsForBoard[post.data.board][postID] = post;
+    }
+
     return (
       <DataContext.Provider
         value={{
@@ -238,7 +249,8 @@ export default class App extends React.Component<AppProps, AppState> {
           votes: this.state.votes,
           boards: this.state.boards,
           username: this.state.username,
-          keyPair: this.state.keyPair
+          keyPair: this.state.keyPair,
+          postsForBoard
         }}
       >
         <Router>
