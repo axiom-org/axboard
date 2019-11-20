@@ -138,59 +138,28 @@ export default function PostSummary(props: {
   }
 
   return (
-    <Card style={{ marginTop: "10px" }}>
-      <Container>
-        <Row>
-          <Col xs="auto">
-            <Card.Body>
-              <VoteButton
-                direction={1}
-                currentVote={currentVote}
-                target={props.post.id}
-              />
-              <Card.Text
-                style={{
-                  marginTop: "0.5rem",
-                  marginBottom: "0.5rem",
-                  textAlign: "center"
-                }}
-              >
-                {data.votes.getScore(props.post.id)}
-              </Card.Text>
-              <VoteButton
-                direction={-1}
-                currentVote={currentVote}
-                target={props.post.id}
-              />
-            </Card.Body>
-          </Col>
-          <Col>
-            <Card.Body>
-              <CardTitle post={props.post} />
-              <Card.Subtitle className="mb-2 text-muted">
-                posted by{" "}
-                <UserReference
-                  username={props.post.data.author}
-                  publicKey={props.post.owner}
-                />{" "}
-                {ago(props.post.timestamp)}
-                {board && [
-                  <span key={1}> in </span>,
-                  <Link key={2} to={`/b/${board.name}/${board.id}`}>{`b/${
-                    board.name
-                  }`}</Link>
-                ]}
-              </Card.Subtitle>
-              <Card.Text>{props.post.data.summary}</Card.Text>
-              {props.linkToComments && (
-                <LinkContainer to={`/post/${props.post.id}`}>
-                  <Card.Link>{commentsPhrase}</Card.Link>
-                </LinkContainer>
-              )}
-            </Card.Body>
-          </Col>
-        </Row>
-      </Container>
-    </Card>
+    <VoteCard currentVote={currentVote} target={props.post.id}>
+      <CardTitle post={props.post} />
+      <Card.Subtitle className="mb-2 text-muted">
+        posted by{" "}
+        <UserReference
+          username={props.post.data.author}
+          publicKey={props.post.owner}
+        />{" "}
+        {ago(props.post.timestamp)}
+        {board && [
+          <span key={1}> in </span>,
+          <Link key={2} to={`/b/${board.name}/${board.id}`}>{`b/${
+            board.name
+          }`}</Link>
+        ]}
+      </Card.Subtitle>
+      <Card.Text>{props.post.data.summary}</Card.Text>
+      {props.linkToComments && (
+        <LinkContainer to={`/post/${props.post.id}`}>
+          <Card.Link>{commentsPhrase}</Card.Link>
+        </LinkContainer>
+      )}
+    </VoteCard>
   );
 }
