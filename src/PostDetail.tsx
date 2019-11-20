@@ -1,11 +1,32 @@
 import React from "react";
+import { AxiomObject } from "axiom-api";
 import { Link } from "react-router-dom";
+import Card from "react-bootstrap/Card";
 
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
+import PostSummary from "./PostSummary";
 import ReplyForm from "./ReplyForm";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
+
+function CommentCard(props: { comment: AxiomObject }) {
+  return (
+    <Card style={{ marginTop: "10px" }}>
+      <Card.Body>
+        <Card.Subtitle className="mb-2 text-muted">
+          posted by{" "}
+          <UserReference
+            username={props.comment.data.author}
+            publicKey={props.comment.owner}
+          />{" "}
+          {ago(props.comment.timestamp)}
+        </Card.Subtitle>
+        <Card.Text>{props.comment.data.content}</Card.Text>
+      </Card.Body>
+    </Card>
+  );
+}
 
 export default function PostDetail(props: { id: string }) {
   let data = useDataContext();
@@ -25,30 +46,9 @@ export default function PostDetail(props: { id: string }) {
 
   return (
     <div>
-      <h2>Post Detail ({props.id})</h2>
-      <div>
-        posted by{" "}
-        <UserReference username={post.data.author} publicKey={post.owner} />{" "}
-        {ago(post.timestamp)}
-        {board && (
-          <div>
-            in{" "}
-            <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
-          </div>
-        )}
-      </div>
-      {post.data.content}
+      <PostSummary post={post} linkToComments={false} />
       {comments.map((comment, index) => (
-        <p key={index}>
-          Comment: {comment.data.content}
-          <br />
-          by{" "}
-          <UserReference
-            username={comment.data.author}
-            publicKey={comment.owner}
-          />{" "}
-          ({ago(comment.timestamp)})
-        </p>
+        <CommentCard key={index} comment={comment} />
       ))}
       <ReplyForm post={post} />
     </div>
