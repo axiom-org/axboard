@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
+import ErrorPage from "./ErrorPage";
 import PostList from "./PostList";
 
 export default function BoardPage(props: { id: string; name?: string }) {
@@ -10,10 +11,10 @@ export default function BoardPage(props: { id: string; name?: string }) {
 
   let board = data.boards[props.id];
   if (!board) {
-    return <div>board not found</div>;
+    return <ErrorPage text="The information for this board was not found." />;
   }
   if (props.name && props.name !== board.name) {
-    return <div>the board has been renamed</div>;
+    return <ErrorPage text="This link is no longer valid." />;
   }
 
   let postlist = [];
