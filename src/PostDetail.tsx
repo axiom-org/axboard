@@ -8,22 +8,21 @@ import PostSummary from "./PostSummary";
 import ReplyForm from "./ReplyForm";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
+import VoteCard from "./VoteCard";
 
 function CommentCard(props: { comment: AxiomObject }) {
   return (
-    <Card style={{ marginTop: "10px" }}>
-      <Card.Body>
-        <Card.Subtitle className="mb-2 text-muted">
-          posted by{" "}
-          <UserReference
-            username={props.comment.data.author}
-            publicKey={props.comment.owner}
-          />{" "}
-          {ago(props.comment.timestamp)}
-        </Card.Subtitle>
-        <Card.Text>{props.comment.data.content}</Card.Text>
-      </Card.Body>
-    </Card>
+    <VoteCard target={props.comment}>
+      <Card.Subtitle className="mb-2 text-muted">
+        posted by{" "}
+        <UserReference
+          username={props.comment.data.author}
+          publicKey={props.comment.owner}
+        />{" "}
+        {ago(props.comment.timestamp)}
+      </Card.Subtitle>
+      <Card.Text>{props.comment.data.content}</Card.Text>
+    </VoteCard>
   );
 }
 
@@ -33,13 +32,13 @@ export default function PostDetail(props: { id: string }) {
   if (!post) {
     return <ErrorPage text="The information for this post was not found." />;
   }
-  let cmap = data.comments[props.id];
 
+  let cmap = data.comments[props.id];
   let comments = [];
   for (let key in cmap) {
     comments.push(cmap[key]);
   }
-  comments.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+  data.votes.sort(comments);
 
   return (
     <div>
