@@ -15,6 +15,7 @@ function CommentCard(props: {
   post: AxiomObject;
   setReplyTo: (s: string) => void;
   replyForm: boolean;
+  indentation: number;
 }) {
   return (
     <div>
@@ -65,17 +66,47 @@ export default function PostDetail(props: { id: string }) {
   }
   data.votes.sort(comments);
 
+  let root = [];
+  let submap: { [id: string]: AxiomObject[] } = {};
+  for (let comment of comments) {
+    if (!comment.data.parent) {
+      root.push(comment);
+      continue;
+    }
+    if (!submap[comment.data.parent]) {
+      submap[comment.data.parent] = [];
+    }
+    submap[comment.data.parent].push(comment);
+  }
+
+  let ordered: AxiomObject[] = [];
+  let indentation: { [id: string]: number } = {};
+  let add = (comment: AxiomObject, indent: number) => {
+    ordered.push(comment);
+    indentation[comment.id] = indent;
+    if (!submap[comment.id]) {
+      return;
+    }
+    for (let subcomment of submap[comment.id]) {
+      add(subcomment, indent + 1);
+    }
+  };
+  for (let comment of root) {
+    add(comment, 0);
+  }
+
   return (
     <div>
       <PostSummary post={post} linkToComments={false} />
       <CommentForm post={post} />
-      {comments.map((comment, index) => (
+      {ordered.map((comment, index) => (
         <CommentCard
           key={index}
           post={post}
           comment={comment}
           replyForm={comment.id === replyTo}
           setReplyTo={setReplyTo}
+          indentation={indentation[comment.id]}
         />
       ))}
     </div>
