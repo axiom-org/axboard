@@ -9,6 +9,7 @@ import { useDataContext } from "./DataContext";
 export default function CommentForm(props: {
   post: AxiomObject;
   parent?: AxiomObject;
+  cancel?: () => void;
 }) {
   let data = useDataContext();
   let [content, setContent] = useState("");
@@ -34,6 +35,7 @@ export default function CommentForm(props: {
     };
     console.log(`commenting ${content.length} bytes. post = ${props.post.id}`);
     await data.app.createComment(commentData);
+    props.cancel && props.cancel();
     setDone(true);
   };
 
@@ -57,8 +59,18 @@ export default function CommentForm(props: {
             value="Comment"
             disabled={content.length <= 1}
           >
-            Comment
+            {props.parent ? "Reply" : "Comment"}
           </Button>
+          {props.cancel && (
+            <Button
+              style={{ marginLeft: "20px" }}
+              variant="outline-secondary"
+              onClick={props.cancel}
+              value="Cancel"
+            >
+              Cancel
+            </Button>
+          )}
         </Form>
       </Card.Body>
     </Card>
