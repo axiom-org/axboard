@@ -17,8 +17,9 @@ function CommentCard(props: {
   replyForm: boolean;
   indentation: number;
 }) {
+  let style = { marginLeft: `${props.indentation * 20}px` };
   return (
-    <div>
+    <div style={style}>
       <VoteCard target={props.comment}>
         <Card.Subtitle className="mb-2 text-muted">
           <small>
