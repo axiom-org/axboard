@@ -9,9 +9,18 @@ function TopCard() {
   return (
     <Card style={{ marginTop: "10px" }}>
       <Card.Body>
-        <Card.Title>Home Page</Card.Title>
-        <LinkContainer to="/newpost/">
-          <Card.Link>New Post</Card.Link>
+        <Card.Title>Welcome to Axboard</Card.Title>
+        <Card.Text>
+          Axboard is a decentralized message board. Your browser participates in
+          a peer-to-peer network that stores the Axboard data. There is no
+          central database that can be censored, and it is entirely open-source.
+          Enjoy!
+        </Card.Text>
+        <LinkContainer to="/about">
+          <Card.Link>Learn more</Card.Link>
+        </LinkContainer>
+        <LinkContainer to="/login">
+          <Card.Link>Create an account</Card.Link>
         </LinkContainer>
       </Card.Body>
     </Card>
@@ -30,7 +39,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <TopCard />
+      {!data.username && <TopCard />}
       <PostList posts={postlist} />
     </div>
   );
