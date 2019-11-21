@@ -42,7 +42,7 @@ export default function CommentForm(props: {
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group>
-            <Form.Label>Add a comment:</Form.Label>
+            {!props.parent && <Form.Label>Add a comment:</Form.Label>}
             <Form.Control
               as="textarea"
               rows="3"
