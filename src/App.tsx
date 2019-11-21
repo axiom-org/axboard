@@ -144,11 +144,11 @@ export default class App extends React.Component<AppProps, AppState> {
     let commentlist = await this.commentdb.find({ selector: {} });
     let comments: CommentMap = {};
     for (let comment of commentlist) {
-      let parent = comment.data.parent;
-      if (!comments[parent]) {
-        comments[parent] = {};
+      let post = comment.data.post;
+      if (!comments[post]) {
+        comments[post] = {};
       }
-      comments[parent][comment.id] = comment;
+      comments[post][comment.id] = comment;
     }
 
     let votelist = await this.votedb.find({ selector: {} });
@@ -189,14 +189,15 @@ export default class App extends React.Component<AppProps, AppState> {
     author: string;
     board: string;
     content: string;
-    parent: string;
+    post: string;
+    parent?: string;
   }): Promise<AxiomObject> {
     let comment = await this.commentdb.create(args);
     this.setState(state => {
-      let newCommentSubmap = { ...state.comments[args.parent] };
+      let newCommentSubmap = { ...state.comments[args.post] };
       newCommentSubmap[comment.id] = comment;
       let newComments = { ...state.comments };
-      newComments[args.parent] = newCommentSubmap;
+      newComments[args.post] = newCommentSubmap;
       return { ...state, comments: newComments };
     });
     return comment;

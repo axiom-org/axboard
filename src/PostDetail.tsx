@@ -44,7 +44,7 @@ export default function PostDetail(props: { id: string }) {
   return (
     <div>
       <PostSummary post={post} linkToComments={false} />
-      <CommentForm parent={post} />
+      <CommentForm post={post} />
       {comments.map((comment, index) => (
         <CommentCard key={index} comment={comment} />
       ))}

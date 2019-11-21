@@ -6,7 +6,10 @@ import Form from "react-bootstrap/Form";
 
 import { useDataContext } from "./DataContext";
 
-export default function CommentForm(props: { parent: AxiomObject }) {
+export default function CommentForm(props: {
+  post: AxiomObject;
+  parent?: AxiomObject;
+}) {
   let data = useDataContext();
   let [content, setContent] = useState("");
   let [done, setDone] = useState(false);
@@ -22,13 +25,14 @@ export default function CommentForm(props: { parent: AxiomObject }) {
 
   let handleSubmit = async (e: any) => {
     e.preventDefault();
-    let commentData = {
+    let commentData: any = {
       author,
-      board: props.parent.data.board,
+      board: props.post.data.board,
       content,
-      parent: props.parent.id
+      post: props.post.id,
+      parent: props.parent && props.parent.id
     };
-    console.log(`commenting ${content.length} bytes on ${props.parent.id}`);
+    console.log(`commenting ${content.length} bytes. post = ${props.post.id}`);
     await data.app.createComment(commentData);
     setDone(true);
   };

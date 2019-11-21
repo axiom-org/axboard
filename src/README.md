@@ -19,7 +19,9 @@ documents the different object types.
 
 `content` - the text content of the comment
 
-`parent` - the id of the Post object this comment is on
+`post` - the id of the Post this comment is beneath
+
+`parent` - the id of the Comment object this comment is on, if it isn't directly on a post
 
 ### Vote
 
