@@ -70,7 +70,7 @@ export default class VoteSet {
     if (this.votes[key]) {
       this.removeVote(this.votes[key]);
     }
-    this.modify(vote.data.target, vote.owner, vote.data.score);
+    this.modify(vote.data.target, votee, vote.data.score);
     this.votes[key] = vote;
   }
 
