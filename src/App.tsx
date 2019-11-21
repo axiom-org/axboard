@@ -6,6 +6,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
 import "./App.css";
+
+import About from "./About";
 import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
 import Header from "./Header";
@@ -296,6 +298,9 @@ export default class App extends React.Component<AppProps, AppState> {
         />
         <Route path="/newpost">
           <NewPost />
+        </Route>
+        <Route path="/about">
+          <About />
         </Route>
         <Route path="/" exact>
           <HomePage />
