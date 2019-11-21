@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { LinkContainer } from "react-router-bootstrap";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
 import { ReactComponent as Logo } from "./white-axe.svg";
@@ -49,6 +49,17 @@ function Header(props: any) {
             Axboard
           </Navbar.Brand>
         </LinkContainer>
+        <Nav.Link
+          href="/#/about"
+          active={false}
+          style={{ paddingLeft: "20px" }}
+        >
+          about
+        </Nav.Link>
+        <Nav.Link href="https://github.com/axiom-org/axboard">github</Nav.Link>
+        <Nav.Link href="/#/newpost" active={false}>
+          submit
+        </Nav.Link>
       </Nav>
       {props.location.pathname !== "/login" && <LogInWidget />}
     </Navbar>

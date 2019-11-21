@@ -5,6 +5,19 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useDataContext } from "./DataContext";
 import PostList from "./PostList";
 
+function TopCard() {
+  return (
+    <Card style={{ marginTop: "10px" }}>
+      <Card.Body>
+        <Card.Title>Home Page</Card.Title>
+        <LinkContainer to="/newpost/">
+          <Card.Link>New Post</Card.Link>
+        </LinkContainer>
+      </Card.Body>
+    </Card>
+  );
+}
+
 export default function HomePage() {
   let data = useDataContext();
   let postlist = [];
@@ -17,14 +30,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <Card style={{ marginTop: "10px" }}>
-        <Card.Body>
-          <Card.Title>Home Page</Card.Title>
-          <LinkContainer to="/newpost/">
-            <Card.Link>New Post</Card.Link>
-          </LinkContainer>
-        </Card.Body>
-      </Card>
+      <TopCard />
       <PostList posts={postlist} />
     </div>
   );
