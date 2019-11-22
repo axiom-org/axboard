@@ -130,18 +130,17 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   async loadData(): Promise<void> {
-    await this.postdb.waitForLoad();
-    await this.commentdb.waitForLoad();
-    await this.votedb.waitForLoad();
-    await this.boarddb.waitForLoad();
+    // TODO: load a smaller subset of data
+    let postlist = await this.postdb.waitForLoad({ selector: {} });
+    let commentlist = await this.commentdb.waitForLoad({ selector: {} });
+    let votelist = await this.votedb.waitForLoad({ selector: {} });
+    let boardlist = await this.boarddb.waitForLoad({ selector: {} });
 
-    let postlist = await this.postdb.find({ selector: {} });
     let posts: ObjectMap = {};
     for (let post of postlist) {
       posts[post.id] = post;
     }
 
-    let commentlist = await this.commentdb.find({ selector: {} });
     let comments: CommentMap = {};
     for (let comment of commentlist) {
       let post = comment.data.post;
@@ -151,10 +150,8 @@ export default class App extends React.Component<AppProps, AppState> {
       comments[post][comment.id] = comment;
     }
 
-    let votelist = await this.votedb.find({ selector: {} });
     let votes = new VoteSet(votelist);
 
-    let boardlist = await this.boarddb.find({ selector: {} });
     let boards: ObjectMap = {};
     for (let board of boardlist) {
       boards[board.id] = board;
