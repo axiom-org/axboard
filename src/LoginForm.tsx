@@ -36,7 +36,8 @@ export default function LoginForm() {
       <br />
       <h2>Log In</h2>
       <br />
-      Some explanatory text can go here.
+      If you forget your passphrase, there is no way to recover your account. So
+      you might want to write down your passphrase somewhere.
       <br />
       <br />
       <Form onSubmit={handleSubmit}>
