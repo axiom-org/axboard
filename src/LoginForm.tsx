@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 import { useDataContext } from "./DataContext";
 
@@ -7,6 +9,7 @@ export default function LoginForm() {
   let data = useDataContext();
   let [username, setUsername] = useState("");
   let [passphrase, setPassphrase] = useState("");
+  let [repeatPassphrase, setRepeatPassphrase] = useState("");
 
   if (data.keyPair) {
     // Already logged in
@@ -26,28 +29,56 @@ export default function LoginForm() {
     }
   };
 
+  let active = username.length > 1 && passphrase === repeatPassphrase;
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        username:
-        <br />
-        <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
-      </label>
+    <div>
       <br />
-      <label>
-        passphrase:
-        <br />
-        <input
-          type="password"
-          value={passphrase}
-          onChange={e => setPassphrase(e.target.value)}
-        />
-      </label>
-      <input type="submit" value="log in" />
-    </form>
+      <h2>Log In</h2>
+      <br />
+      Some explanatory text can go here.
+      <br />
+      <br />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            value={username}
+            onChange={(e: any) =>
+              setUsername(e.target.value.replace(/[\W_]/g, ""))
+            }
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>
+            Passphrase
+            <Form.Control
+              type="password"
+              value={passphrase}
+              onChange={(e: any) => setPassphrase(e.target.value)}
+            />
+          </Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>
+            Repeat your passphrase
+            <Form.Control
+              type="password"
+              value={repeatPassphrase}
+              onChange={(e: any) => setRepeatPassphrase(e.target.value)}
+            />
+          </Form.Label>
+        </Form.Group>
+        <Button
+          disabled={!active}
+          variant="primary"
+          type="submit"
+          value="Log In"
+        >
+          Log In
+        </Button>
+      </Form>
+    </div>
   );
 }
