@@ -10,6 +10,7 @@ import "./App.css";
 import About from "./About";
 import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
+import DevMode from "./DevMode";
 import EditBoard from "./EditBoard";
 import Header from "./Header";
 import HomePage from "./HomePage";
@@ -265,6 +266,9 @@ export default class App extends React.Component<AppProps, AppState> {
     // Save to local storage
     window.localStorage.setItem("username", username);
     window.localStorage.setItem("passphrase", passphrase);
+    if (DevMode.isActive()) {
+      DevMode.addToAuth(username, passphrase);
+    }
   }
 
   logout() {
