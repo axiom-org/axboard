@@ -41,7 +41,7 @@ export default function LoginForm() {
       <br />
       <br />
       <Form onSubmit={handleSubmit}>
-        <Form.Group>
+        <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -51,25 +51,21 @@ export default function LoginForm() {
             }
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>
-            Passphrase
-            <Form.Control
-              type="password"
-              value={passphrase}
-              onChange={(e: any) => setPassphrase(e.target.value)}
-            />
-          </Form.Label>
+        <Form.Group controlId="formPassphrase">
+          <Form.Label>Passphrase</Form.Label>
+          <Form.Control
+            type="passphrase"
+            value={passphrase}
+            onChange={(e: any) => setPassphrase(e.target.value)}
+          />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>
-            Repeat your passphrase
-            <Form.Control
-              type="password"
-              value={repeatPassphrase}
-              onChange={(e: any) => setRepeatPassphrase(e.target.value)}
-            />
-          </Form.Label>
+        <Form.Group controlId="formRepeatPassphrase">
+          <Form.Label>Repeat your passphrase</Form.Label>
+          <Form.Control
+            type="password"
+            value={repeatPassphrase}
+            onChange={(e: any) => setRepeatPassphrase(e.target.value)}
+          />
         </Form.Group>
         <Button
           disabled={!active}
