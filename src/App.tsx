@@ -10,6 +10,7 @@ import "./App.css";
 import About from "./About";
 import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
+import EditBoard from "./EditBoard";
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Loading from "./Loading";
