@@ -54,7 +54,7 @@ export default function LoginForm() {
         <Form.Group controlId="formPassphrase">
           <Form.Label>Passphrase</Form.Label>
           <Form.Control
-            type="passphrase"
+            type="password"
             value={passphrase}
             onChange={(e: any) => setPassphrase(e.target.value)}
           />
