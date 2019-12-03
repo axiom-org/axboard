@@ -216,6 +216,21 @@ export default class App extends React.Component<AppProps, AppState> {
     return board;
   }
 
+  async updateBoard(
+    args: {
+      description: string;
+    },
+    name: string
+  ): Promise<AxiomObject> {
+    let board = await this.boarddb.update(name, args);
+    this.setState(state => {
+      let newBoards: ObjectMap = { ...state.boards };
+      newBoards[board.id] = board;
+      return { ...state, boards: newBoards };
+    });
+    return board;
+  }
+
   async vote(args: { target: string; score: number }): Promise<AxiomObject> {
     // Redundant, but helps data-layer protocols not cache duplicate votes
     let name = args.target.slice(0, 10) + args.target.slice(-10);

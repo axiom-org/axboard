@@ -8,7 +8,8 @@ import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
 
 export default function EditBoard(props: { board: AxiomObject }) {
-  let [description, setDescription] = useState(props.board.data.description);
+  let initialDescription: string = props.board.data.description;
+  let [description, setDescription] = useState(initialDescription);
   let [redirect, setRedirect] = useState("");
 
   if (redirect !== "") {
@@ -16,10 +17,10 @@ export default function EditBoard(props: { board: AxiomObject }) {
   }
 
   let data = useDataContext();
-  if (!data.username) {
+  if (!data.keyPair) {
     return <Redirect to="/login" />;
   }
-  if (data.keyPair.getPublicKey() !== board.owner) {
+  if (data.keyPair.getPublicKey() !== props.board.owner) {
     return <ErrorPage text="You can only edit boards that you own." />;
   }
 
