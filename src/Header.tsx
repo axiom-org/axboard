@@ -28,7 +28,19 @@ function LogInWidget() {
         <NavDropdown.Item as="button" onClick={() => data.app.logout()}>
           Log out
         </NavDropdown.Item>
-        {DevMode.isActive && (
+        {DevMode.isActive() &&
+          DevMode.getUsernames().map((username: string) => (
+            <NavDropdown.Item
+              as="button"
+              key={username}
+              onClick={() => {
+                data.app.login(username, DevMode.getPassphrase(username));
+              }}
+            >
+              {username}
+            </NavDropdown.Item>
+          ))}
+        {DevMode.isActive() && (
           <NavDropdown.Item
             as="button"
             onClick={() => {
