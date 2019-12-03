@@ -40,6 +40,11 @@ export default function LoginForm() {
       you might want to write down your passphrase somewhere.
       <br />
       <br />
+      {
+        "Since the system is decentralized, your computer may not have an exhaustive list of all users. That means you have to type your passphrase twice, even if you aren't a new user. Sorry!"
+      }
+      <br />
+      <br />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>

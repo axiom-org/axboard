@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { withRouter } from "react-router-dom";
 
 import { useDataContext } from "./DataContext";
+import DevMode from "./DevMode";
 import { ReactComponent as Logo } from "./white-axe.svg";
 
 function LogInWidget() {
@@ -27,6 +28,17 @@ function LogInWidget() {
         <NavDropdown.Item as="button" onClick={() => data.app.logout()}>
           Log out
         </NavDropdown.Item>
+        {DevMode.isActive && (
+          <NavDropdown.Item
+            as="button"
+            onClick={() => {
+              DevMode.exit();
+              data.app.logout();
+            }}
+          >
+            Exit dev mode
+          </NavDropdown.Item>
+        )}
       </NavDropdown>
     </Nav>
   );
