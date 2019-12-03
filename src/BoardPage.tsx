@@ -17,6 +17,8 @@ export default function BoardPage(props: { id: string; name?: string }) {
     return <ErrorPage text="This link is no longer valid." />;
   }
 
+  let mine = data.keyPair && data.keyPair.getPublicKey() === board.owner;
+
   let postlist = Object.values(data.postsForBoard[props.id] || {});
   data.votes.sort(postlist);
 
@@ -29,6 +31,11 @@ export default function BoardPage(props: { id: string; name?: string }) {
           <LinkContainer to={`/newpost/${board.id}`}>
             <Card.Link>New post</Card.Link>
           </LinkContainer>
+          {mine && (
+            <LinkContainer to={`/editboard/${board.id}`}>
+              <Card.Link>Edit</Card.Link>
+            </LinkContainer>
+          )}
         </Card.Body>
       </Card>
       <PostList posts={postlist} />
