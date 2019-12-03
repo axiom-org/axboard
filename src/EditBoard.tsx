@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { AxiomObject } from "axiom-api";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, Redirect } from "react-router-dom";
@@ -7,28 +6,31 @@ import { Link, Redirect } from "react-router-dom";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
 
-export default function EditBoard(props: { board: AxiomObject }) {
-  let initialDescription: string = props.board.data.description;
+export default function EditBoard(props: { id: string }) {
+  let data = useDataContext();
+  let board = data.boards[props.id];
+  let initialDescription: string = board ? board.data.description : "";
   let [description, setDescription] = useState(initialDescription);
   let [redirect, setRedirect] = useState("");
 
   if (redirect !== "") {
     return <Redirect to={redirect} />;
   }
-
-  let data = useDataContext();
+  if (!board) {
+    return <ErrorPage text="The information for this board was not found." />;
+  }
   if (!data.keyPair) {
     return <Redirect to="/login" />;
   }
-  if (data.keyPair.getPublicKey() !== props.board.owner) {
+  if (data.keyPair.getPublicKey() !== board.owner) {
     return <ErrorPage text="You can only edit boards that you own." />;
   }
 
   let handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(`updating board with name: ${name}`);
-    let board = await data.app.updateBoard({ description }, name);
-    console.log(board);
+    console.log(`updating board with name: ${board.name}`);
+    let newBoard = await data.app.updateBoard({ description }, board.name);
+    console.log(newBoard);
     setRedirect(`/b/${board.name}/${board.id}`);
   };
 
@@ -37,9 +39,7 @@ export default function EditBoard(props: { board: AxiomObject }) {
       <br />
       <h2>
         Edit{" "}
-        <Link to={`/b/${props.board.name}/${props.board.id}`}>{`b/${
-          props.board.name
-        }`}</Link>
+        <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
       </h2>
       <br />
       <Form onSubmit={handleSubmit}>

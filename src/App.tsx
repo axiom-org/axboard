@@ -313,6 +313,10 @@ export default class App extends React.Component<AppProps, AppState> {
         <Route path="/newpost">
           <NewPost />
         </Route>
+        <Route
+          path="/editboard/:id"
+          render={({ match }) => <EditBoard id={match.params.id} />}
+        />
         <Route path="/about">
           <About />
         </Route>
