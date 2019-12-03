@@ -37,7 +37,9 @@ export default function EditBoard(props: { board: AxiomObject }) {
       <br />
       <h2>
         Edit{" "}
-        <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
+        <Link to={`/b/${props.board.name}/${props.board.id}`}>{`b/${
+          props.board.name
+        }`}</Link>
       </h2>
       <br />
       <Form onSubmit={handleSubmit}>
