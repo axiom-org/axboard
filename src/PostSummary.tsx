@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
+import BoardReference from "./BoardReference";
 import { useDataContext } from "./DataContext";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
@@ -52,9 +53,7 @@ export default function PostSummary(props: {
         {ago(props.post.timestamp)}
         {board && [
           <span key={1}> in </span>,
-          <Link key={2} to={`/b/${board.name}/${board.id}`}>{`b/${
-            board.name
-          }`}</Link>
+          <BoardReference key={2} board={board} />
         ]}
       </Card.Subtitle>
       <Card.Text>{props.post.data.summary}</Card.Text>

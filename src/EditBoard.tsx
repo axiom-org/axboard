@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
+import BoardReference from "./BoardReference";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
 
@@ -38,8 +39,7 @@ export default function EditBoard(props: { id: string }) {
     <div>
       <br />
       <h2>
-        Edit{" "}
-        <Link to={`/b/${board.name}/${board.id}`}>{`b/${board.name}`}</Link>
+        Edit <BoardReference board={board} />
       </h2>
       <br />
       <Form onSubmit={handleSubmit}>
