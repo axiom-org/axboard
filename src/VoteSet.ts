@@ -1,4 +1,4 @@
-import { AxiomObject } from "axiom-api";
+import { AxiomObject, KeyPair } from "axiom-api";
 
 export default class VoteSet {
   // Karma for each user
@@ -46,6 +46,26 @@ export default class VoteSet {
   getVote(owner: string, target: string): AxiomObject | null {
     let key = `${owner}:${target}`;
     return this.votes[key] || null;
+  }
+
+  showTo(obj: AxiomObject, keyPair?: KeyPair): boolean {
+    if (this.getScore(obj.id) > -10) {
+      return true;
+    }
+    if (!keyPair) {
+      return false;
+    }
+    let pk = keyPair.getPublicKey();
+    if (pk === obj.owner) {
+      return true;
+    }
+    if (!obj.data.board) {
+      return false;
+    }
+    if (obj.data.board.startsWith(pk)) {
+      return true;
+    }
+    return false;
   }
 
   sort(list: AxiomObject[]) {

@@ -53,14 +53,9 @@ export default function VoteCard(props: {
   let data = useDataContext();
   let currentVote = 0;
 
-  // Board owners and object authors are "responsible".
-  // That just means they see objects even when they are very downvoted.
-  let responsible = false;
-
   if (data.keyPair) {
     let pk = data.keyPair.getPublicKey();
     if (pk === props.target.owner) {
-      responsible = true;
       currentVote = 1;
     } else {
       let vote = data.votes.getVote(pk, props.target.id);
@@ -68,15 +63,9 @@ export default function VoteCard(props: {
         currentVote = vote.data.score;
       }
     }
-    if (props.target.data.board && props.target.data.board.startsWith(pk)) {
-      responsible = true;
-    }
   }
 
   let score = data.votes.getScore(props.target.id);
-  if (score <= -10 && !responsible) {
-    return null;
-  }
 
   return (
     <Card style={{ marginTop: "10px" }}>

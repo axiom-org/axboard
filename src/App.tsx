@@ -42,6 +42,21 @@ type AppState = {
 // For debugging
 declare var window: any;
 
+function objectsToShow(
+  votes: VoteSet,
+  input: ObjectMap,
+  kp?: KeyPair
+): ObjectMap {
+  let output: ObjectMap = {};
+  for (let key in input) {
+    let val = input[key];
+    if (votes.showTo(val, kp)) {
+      output[key] = val;
+    }
+  }
+  return output;
+}
+
 export default class App extends React.Component<AppProps, AppState> {
   axiom: Axiom;
   channel: Channel;
@@ -339,11 +354,25 @@ export default class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
+    let posts = objectsToShow(
+      this.state.votes,
+      this.state.posts,
+      this.state.keyPair
+    );
+    let comments: CommentMap = {};
+    for (let parent in this.state.comments) {
+      comments[parent] = objectsToShow(
+        this.state.votes,
+        this.state.comments[parent],
+        this.state.keyPair
+      );
+    }
+
     let postsForBoard: {
       [boardID: string]: { [postID: string]: AxiomObject };
     } = {};
-    for (let postID in this.state.posts) {
-      let post = this.state.posts[postID];
+    for (let postID in posts) {
+      let post = posts[postID];
       if (!postsForBoard[post.data.board]) {
         postsForBoard[post.data.board] = {};
       }
@@ -354,8 +383,8 @@ export default class App extends React.Component<AppProps, AppState> {
       <DataContext.Provider
         value={{
           app: this,
-          posts: this.state.posts,
-          comments: this.state.comments,
+          posts,
+          comments,
           votes: this.state.votes,
           boards: this.state.boards,
           username: this.state.username,
