@@ -34,6 +34,7 @@ function LogInWidget() {
               as="button"
               key={username}
               onClick={() => {
+                data.app.logout();
                 data.app.login(username, DevMode.getPassphrase(username));
               }}
             >

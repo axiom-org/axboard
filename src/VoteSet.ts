@@ -57,7 +57,7 @@ export default class VoteSet {
   }
 
   addVote(vote: AxiomObject) {
-    if (Math.abs(vote.data.score) > 1 || !vote.data.target) {
+    if (!vote.data.target) {
       return;
     }
     let votee = vote.data.target.split(":")[0];
