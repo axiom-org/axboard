@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AxiomObject } from "axiom-api";
 import Card from "react-bootstrap/Card";
 
+import CensorLink from "./CensorLink";
 import CommentForm from "./CommentForm";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
@@ -17,10 +18,6 @@ function CommentCard(props: {
   replyForm: boolean;
   indentation: number;
 }) {
-  let data = useDataContext();
-  let mod =
-    data.keyPair &&
-    props.post.data.board.startsWith(data.keyPair.getPublicKey());
   let style = { marginLeft: `${props.indentation * 20}px` };
   return (
     <div style={style}>
@@ -44,17 +41,7 @@ function CommentCard(props: {
         >
           reply
         </Card.Link>
-        {mod && (
-          <Card.Link
-            href=""
-            onClick={(e: any) => {
-              e.preventDefault();
-              data.app.censor(props.comment.id);
-            }}
-          >
-            censor
-          </Card.Link>
-        )}
+        <CensorLink target={props.comment} />
       </VoteCard>
       {props.replyForm && (
         <CommentForm

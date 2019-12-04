@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 
 import BoardReference from "./BoardReference";
+import CensorLink from "./CensorLink";
 import { useDataContext } from "./DataContext";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
@@ -62,6 +63,7 @@ export default function PostSummary(props: {
           <Card.Link>{commentsPhrase}</Card.Link>
         </LinkContainer>
       )}
+      <CensorLink target={props.post} />
     </VoteCard>
   );
 }
