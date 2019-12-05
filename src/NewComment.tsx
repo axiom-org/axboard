@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 
 import { useDataContext } from "./DataContext";
 
-export default function CommentForm(props: {
+export default function NewComment(props: {
   post: AxiomObject;
   parent?: AxiomObject;
   cancel?: () => void;

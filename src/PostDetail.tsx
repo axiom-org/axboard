@@ -3,9 +3,9 @@ import { AxiomObject } from "axiom-api";
 import Card from "react-bootstrap/Card";
 
 import CensorLink from "./CensorLink";
-import CommentForm from "./CommentForm";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
+import NewComment from "./NewComment";
 import PostSummary from "./PostSummary";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
@@ -44,7 +44,7 @@ function CommentCard(props: {
         <CensorLink target={props.comment} />
       </VoteCard>
       {props.replyForm && (
-        <CommentForm
+        <NewComment
           post={props.post}
           parent={props.comment}
           cancel={() => props.setReplyTo("")}
@@ -101,7 +101,7 @@ export default function PostDetail(props: { id: string }) {
   return (
     <div>
       <PostSummary post={post} linkToComments={false} />
-      <CommentForm post={post} />
+      <NewComment post={post} />
       {ordered.map((comment, index) => (
         <CommentCard
           key={index}
