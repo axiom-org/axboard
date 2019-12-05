@@ -8,8 +8,8 @@ import ErrorPage from "./ErrorPage";
 
 export default function EditComment(props: { parent: string; id: string }) {
   let data = useDataContext();
-  let siblings = data.comments[parent] || {};
-  let comment = siblings[id];
+  let siblings = data.comments[props.parent] || {};
+  let comment = siblings[props.id];
   let initialContent = (comment && comment.data.content) || "";
   let [content, setContent] = useState(initialContent);
   let [redirect, setRedirect] = useState("");

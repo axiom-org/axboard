@@ -12,6 +12,7 @@ import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
 import DevMode from "./DevMode";
 import EditBoard from "./EditBoard";
+import EditComment from "./EditComment";
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Loading from "./Loading";
@@ -361,6 +362,12 @@ export default class App extends React.Component<AppProps, AppState> {
         <Route
           path="/editboard/:id"
           render={({ match }) => <EditBoard id={match.params.id} />}
+        />
+        <Route
+          path="/editcomment/:parent/:id"
+          render={({ match }) => (
+            <EditComment parent={match.params.parent} id={match.params.id} />
+          )}
         />
         <Route path="/about">
           <About />
