@@ -364,10 +364,8 @@ export default class App extends React.Component<AppProps, AppState> {
           render={({ match }) => <EditBoard id={match.params.id} />}
         />
         <Route
-          path="/editcomment/:parent/:id"
-          render={({ match }) => (
-            <EditComment parent={match.params.parent} id={match.params.id} />
-          )}
+          path="/editcomment/:post/:id"
+          render={({ match }) => <EditComment {...match.params} />}
         />
         <Route path="/about">
           <About />

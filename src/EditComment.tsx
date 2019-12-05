@@ -6,9 +6,9 @@ import { Redirect } from "react-router-dom";
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
 
-export default function EditComment(props: { parent: string; id: string }) {
+export default function EditComment(props: { post: string; id: string }) {
   let data = useDataContext();
-  let siblings = data.comments[props.parent] || {};
+  let siblings = data.comments[props.post] || {};
   let comment = siblings[props.id];
   let initialContent = (comment && comment.data.content) || "";
   let [content, setContent] = useState(initialContent);
