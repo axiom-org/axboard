@@ -199,6 +199,19 @@ export default class App extends React.Component<AppProps, AppState> {
     return post;
   }
 
+  addCommentToState(comment: AxiomObject) {
+    if (!comment.data.post) {
+      throw new Error("bad comment");
+    }
+    this.setState(state => {
+      let newCommentSubmap = { ...state.comments[comment.data.post] };
+      newCommentSubmap[comment.id] = comment;
+      let newComments = { ...state.comments };
+      newComments[comment.data.post] = newCommentSubmap;
+      return { ...state, comments: newComments };
+    });
+  }
+
   async createComment(args: {
     author: string;
     board: string;
@@ -207,14 +220,31 @@ export default class App extends React.Component<AppProps, AppState> {
     parent?: string;
   }): Promise<AxiomObject> {
     let comment = await this.commentdb.create(args);
-    this.setState(state => {
-      let newCommentSubmap = { ...state.comments[args.post] };
-      newCommentSubmap[comment.id] = comment;
-      let newComments = { ...state.comments };
-      newComments[args.post] = newCommentSubmap;
-      return { ...state, comments: newComments };
-    });
+    this.addCommentToState(comment);
     return comment;
+  }
+
+  async updateComment(
+    name: string,
+    args: {
+      author: string;
+      board: string;
+      content: string;
+      post: string;
+      parent?: string;
+    }
+  ): Promise<AxiomObject> {
+    let comment = await this.commentdb.update(name, args);
+    this.addCommentToState(comment);
+    return comment;
+  }
+
+  addBoardToState(board: AxiomObject) {
+    this.setState(state => {
+      let newBoards: ObjectMap = { ...state.boards };
+      newBoards[board.id] = board;
+      return { ...state, boards: newBoards };
+    });
   }
 
   async createBoard(
@@ -224,11 +254,7 @@ export default class App extends React.Component<AppProps, AppState> {
     name: string
   ): Promise<AxiomObject> {
     let board = await this.boarddb.create(args, name);
-    this.setState(state => {
-      let newBoards = { ...state.boards };
-      newBoards[board.id] = board;
-      return { ...state, boards: newBoards };
-    });
+    this.addBoardToState(board);
     return board;
   }
 
@@ -239,11 +265,7 @@ export default class App extends React.Component<AppProps, AppState> {
     name: string
   ): Promise<AxiomObject> {
     let board = await this.boarddb.update(name, args);
-    this.setState(state => {
-      let newBoards: ObjectMap = { ...state.boards };
-      newBoards[board.id] = board;
-      return { ...state, boards: newBoards };
-    });
+    this.addBoardToState(board);
     return board;
   }
 
