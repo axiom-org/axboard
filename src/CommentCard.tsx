@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AxiomObject } from "axiom-api";
 import Card from "react-bootstrap/Card";
 import { Redirect } from "react-router-dom";
+import { Markdown } from "react-showdown";
 
 import CensorLink from "./CensorLink";
 import { useDataContext } from "./DataContext";
@@ -41,7 +42,9 @@ export default function CommentCard(props: {
             - {ago(props.comment.timestamp)}
           </small>
         </Card.Subtitle>
-        <Card.Text>{props.comment.data.content}</Card.Text>
+        <Card.Text>
+          <Markdown markup={props.comment.data.content} />
+        </Card.Text>
         <Card.Link
           href=""
           onClick={(e: any) => {
