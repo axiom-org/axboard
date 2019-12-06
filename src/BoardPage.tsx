@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 import { useDataContext } from "./DataContext";
 import ErrorPage from "./ErrorPage";
+import FancyText from "./FancyText";
 import PostList from "./PostList";
 
 export default function BoardPage(props: { id: string; name?: string }) {
@@ -27,7 +28,7 @@ export default function BoardPage(props: { id: string; name?: string }) {
       <Card style={{ marginTop: "10px" }}>
         <Card.Body>
           <Card.Title>{"b/" + board.name}</Card.Title>
-          <Card.Text>{board.data.description}</Card.Text>
+          <FancyText text={board.data.description} />
           <LinkContainer to={`/newpost/${board.id}`}>
             <Card.Link>New post</Card.Link>
           </LinkContainer>

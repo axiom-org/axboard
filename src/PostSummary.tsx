@@ -7,6 +7,7 @@ import Card from "react-bootstrap/Card";
 import BoardReference from "./BoardReference";
 import CensorLink from "./CensorLink";
 import { useDataContext } from "./DataContext";
+import FancyText from "./FancyText";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
 import VoteCard from "./VoteCard";
@@ -57,7 +58,7 @@ export default function PostSummary(props: {
           <BoardReference key={2} board={board} />
         ]}
       </Card.Subtitle>
-      <Card.Text>{props.post.data.summary}</Card.Text>
+      <FancyText text={props.post.data.summary} />
       {props.linkToComments && (
         <LinkContainer to={`/post/${props.post.id}`}>
           <Card.Link>{commentsPhrase}</Card.Link>
