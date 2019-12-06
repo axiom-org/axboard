@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { AxiomObject } from "axiom-api";
 import Card from "react-bootstrap/Card";
 import { Redirect } from "react-router-dom";
-import { Markdown } from "react-showdown";
 
 import CensorLink from "./CensorLink";
 import { useDataContext } from "./DataContext";
+import FancyText from "./FancyText";
 import NewComment from "./NewComment";
 import UserReference from "./UserReference";
 import { ago } from "./Util";
@@ -42,9 +42,7 @@ export default function CommentCard(props: {
             - {ago(props.comment.timestamp)}
           </small>
         </Card.Subtitle>
-        <Card.Text>
-          <Markdown markup={props.comment.data.content} />
-        </Card.Text>
+        <FancyText text={props.comment.data.content} />
         <Card.Link
           href=""
           onClick={(e: any) => {
