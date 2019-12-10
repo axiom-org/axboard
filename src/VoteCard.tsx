@@ -65,7 +65,7 @@ export default function VoteCard(props: {
     }
   }
 
-  let score = data.votes.getScore(props.target.id);
+  let score = data.votes.getVoteCount(props.target.id);
 
   return (
     <Card style={{ marginTop: "10px" }}>

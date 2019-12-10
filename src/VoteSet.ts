@@ -4,15 +4,15 @@ export default class VoteSet {
   // Karma for each user
   karma: { [publicKey: string]: number };
 
-  // Score for each object voted on, not including the implicit self-vote
-  score: { [id: string]: number };
+  // Vote count for each object voted on, not including the implicit self-vote
+  voteCount: { [id: string]: number };
 
   // Keyed by owner:target
   votes: { [key: string]: AxiomObject };
 
   constructor(votes: AxiomObject[]) {
     this.karma = {};
-    this.score = {};
+    this.voteCount = {};
     this.votes = {};
 
     for (let vote of votes) {
@@ -21,10 +21,10 @@ export default class VoteSet {
   }
 
   modify(target: string, owner: string, delta: number) {
-    if (this.score[target]) {
-      this.score[target] += delta;
+    if (this.voteCount[target]) {
+      this.voteCount[target] += delta;
     } else {
-      this.score[target] = delta;
+      this.voteCount[target] = delta;
     }
 
     if (this.karma[owner]) {
@@ -34,9 +34,16 @@ export default class VoteSet {
     }
   }
 
-  // Score which does include implicit self-vote
-  getScore(id: string): number {
-    return 1 + (this.score[id] || 0);
+  // Includes implicit self-vote
+  getVoteCount(id: string): number {
+    return 1 + (this.voteCount[id] || 0);
+  }
+
+  getScore(obj: AxiomObject): number {
+    let vc = this.getVoteCount(obj.id);
+    let ms = new Date().getTime() - obj.timestamp.getTime();
+    let days = ms / 1000 / 60 / 60 / 24;
+    return vc * Math.pow(1 + days, -1.3);
   }
 
   getKarma(publicKey: string): number {
@@ -49,7 +56,7 @@ export default class VoteSet {
   }
 
   showTo(obj: AxiomObject, keyPair?: KeyPair): boolean {
-    if (this.getScore(obj.id) > -10) {
+    if (this.getVoteCount(obj.id) > -10) {
       return true;
     }
     if (!keyPair) {
@@ -69,11 +76,7 @@ export default class VoteSet {
   }
 
   sort(list: AxiomObject[]) {
-    list.sort(
-      (a, b) =>
-        this.getScore(b.id) - this.getScore(a.id) ||
-        b.timestamp.getTime() - a.timestamp.getTime()
-    );
+    list.sort((a, b) => this.getScore(b) - this.getScore(a));
   }
 
   addVote(vote: AxiomObject) {
