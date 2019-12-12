@@ -47,6 +47,10 @@ export default function CommentCard(props: {
           href=""
           onClick={(e: any) => {
             e.preventDefault();
+            if (!data.keyPair) {
+              window.location.assign("/#/login");
+              return;
+            }
             props.setReplyTo(props.comment.id);
           }}
         >
