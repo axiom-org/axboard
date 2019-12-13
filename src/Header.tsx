@@ -81,7 +81,11 @@ function Header(props: any) {
         >
           about
         </Nav.Link>
-        <Nav.Link href="https://github.com/axiom-org/axboard">github</Nav.Link>
+        <div className="d-none d-sm-block">
+          <Nav.Link href="https://github.com/axiom-org/axboard">
+            github
+          </Nav.Link>
+        </div>
         <Nav.Link href="/#/newpost" active={false}>
           submit
         </Nav.Link>
