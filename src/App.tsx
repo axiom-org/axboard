@@ -80,7 +80,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     let ageFilter = (obj: AxiomObject): boolean => {
       let age = daysAgo(obj.timestamp);
-      if (age > 7 || age < -0.05) {
+      if (age > 14 || age < -0.05) {
         return false;
       }
       return true;
