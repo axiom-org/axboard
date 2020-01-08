@@ -25,7 +25,7 @@ export default DataContext;
 export function useDataContext(): DataContextType {
   let dc = useContext(DataContext);
   if (dc === null) {
-    throw new Error("null context causes trouble");
+    throw new Error("cannot use null data context");
   }
   return dc;
 }
