@@ -8,6 +8,7 @@ import Row from "react-bootstrap/Row";
 import "./App.css";
 
 import About from "./About";
+import AppContext from "./AppContext";
 import BoardPage from "./BoardPage";
 import DataContext from "./DataContext";
 import DevMode from "./DevMode";
@@ -407,27 +408,29 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     return (
-      <DataContext.Provider
-        value={{
-          app: this,
-          posts,
-          comments,
-          votes: this.state.votes,
-          boards: this.state.boards,
-          username: this.state.username,
-          keyPair: this.state.keyPair,
-          postsForBoard
-        }}
-      >
-        <Router>
-          <Header />
-          <Container>
-            <Row>
-              <Col>{this.renderContent()}</Col>
-            </Row>
-          </Container>
-        </Router>
-      </DataContext.Provider>
+      <AppContext.Provider value={app}>
+        <DataContext.Provider
+          value={{
+            app: this,
+            posts,
+            comments,
+            votes: this.state.votes,
+            boards: this.state.boards,
+            username: this.state.username,
+            keyPair: this.state.keyPair,
+            postsForBoard
+          }}
+        >
+          <Router>
+            <Header />
+            <Container>
+              <Row>
+                <Col>{this.renderContent()}</Col>
+              </Row>
+            </Container>
+          </Router>
+        </DataContext.Provider>
+      </AppContext.Provider>
     );
   }
 }
