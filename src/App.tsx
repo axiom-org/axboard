@@ -408,7 +408,7 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     return (
-      <AppContext.Provider value={app}>
+      <AppContext.Provider value={this}>
         <DataContext.Provider
           value={{
             app: this,
